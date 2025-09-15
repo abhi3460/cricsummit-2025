@@ -2,7 +2,7 @@
  * Test suite for Challenge 2: Commentary
  */
 
-import { Challenge2 } from "../src/challenge2";
+import { Challenge2, CommentaryOutput } from "../src/challenge2";
 
 describe("Challenge2", () => {
   let challenge2: Challenge2;
@@ -91,7 +91,7 @@ describe("Challenge2", () => {
         },
       ];
 
-      const formatted = challenge2.formatOutput(outputs);
+      const formatted = challenge2.formatOutput(outputs as CommentaryOutput[]);
       const expected =
         "It's a wicket. - 1 wicket\nThat's massive and out of the ground. - 6 runs";
 

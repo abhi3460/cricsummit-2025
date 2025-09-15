@@ -12,13 +12,7 @@
  * Space Complexity: O(1) - fixed number of balls
  */
 
-import {
-  BowlingType,
-  ShotType,
-  ShotTiming,
-  ShotOutcome,
-  CricketInput,
-} from "./types";
+import { BowlingType, ShotType, ShotTiming, ShotOutcome } from "./types";
 import { OutcomeEngine } from "./outcome-engine";
 import { CommentaryEngine } from "./commentary-engine";
 

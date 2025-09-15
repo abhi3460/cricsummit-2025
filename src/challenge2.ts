@@ -12,7 +12,6 @@ import {
   ShotType,
   ShotTiming,
   ShotOutcome,
-  CommentaryType,
   CricketInput,
 } from "./types";
 import { OutcomeEngine } from "./outcome-engine";

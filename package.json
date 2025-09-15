@@ -11,8 +11,13 @@
     "test:watch": "jest --watch",
     "serve": "npx http-server public -p 3000 -o"
   },
-  "keywords": ["cricket", "prediction", "algorithms", "typescript"],
-  "author": "Frontend Team Lead Candidate",
+  "keywords": [
+    "cricket",
+    "prediction",
+    "algorithms",
+    "typescript"
+  ],
+  "author": "Abhishek Vasvelia",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.0",
