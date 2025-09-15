@@ -4,50 +4,50 @@
  */
 
 export type BowlingType =
-  | "Bouncer"
-  | "Inswinger"
-  | "Outswinger"
-  | "Leg Cutter"
-  | "Off Cutter"
-  | "Slower Ball"
-  | "Yorker"
-  | "Pace"
-  | "Off Break"
-  | "Doosra";
+  | 'Bouncer'
+  | 'Inswinger'
+  | 'Outswinger'
+  | 'Leg Cutter'
+  | 'Off Cutter'
+  | 'Slower Ball'
+  | 'Yorker'
+  | 'Pace'
+  | 'Off Break'
+  | 'Doosra';
 
 export type ShotType =
-  | "Straight"
-  | "Sweep"
-  | "Flick"
-  | "CoverDrive"
-  | "LegLance"
-  | "Pull"
-  | "Long On"
-  | "Scoop"
-  | "SquareCut"
-  | "UpperCut";
+  | 'Straight'
+  | 'Sweep'
+  | 'Flick'
+  | 'CoverDrive'
+  | 'LegLance'
+  | 'Pull'
+  | 'Long On'
+  | 'Scoop'
+  | 'SquareCut'
+  | 'UpperCut';
 
-export type ShotTiming = "Early" | "Good" | "Perfect" | "Late";
+export type ShotTiming = 'Early' | 'Good' | 'Perfect' | 'Late';
 
 export type ShotOutcome =
-  | "1 run"
-  | "2 runs"
-  | "3 runs"
-  | "4 runs"
-  | "5 runs"
-  | "6 runs"
-  | "1 wicket";
+  | '1 run'
+  | '2 runs'
+  | '3 runs'
+  | '4 runs'
+  | '5 runs'
+  | '6 runs'
+  | '1 wicket';
 
 export type CommentaryType =
-  | "wicket"
-  | "excellent-line-length"
-  | "edged-taken"
-  | "huge-hit"
-  | "just-over-fielder"
-  | "excellent-boundary-effort"
-  | "convert-ones-twos"
-  | "massive-out-ground"
-  | "excellent-running";
+  | 'wicket'
+  | 'excellent-line-length'
+  | 'edged-taken'
+  | 'huge-hit'
+  | 'just-over-fielder'
+  | 'excellent-boundary-effort'
+  | 'convert-ones-twos'
+  | 'massive-out-ground'
+  | 'excellent-running';
 
 export interface CricketInput {
   bowlingType: BowlingType;
