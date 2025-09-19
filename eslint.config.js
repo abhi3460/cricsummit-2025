@@ -1,13 +1,9 @@
-import js from '@eslint/js';
 import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default [
-  // Base configuration
-  js.configs.recommended,
-
   // TypeScript source files configuration
   {
     files: ['src/**/*.ts'],

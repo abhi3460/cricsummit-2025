@@ -32,8 +32,14 @@ This project implements three main challenges from CRICSUMMIT'25:
 - **Scalable**: Handles large inputs efficiently with O(n) processing time
 - **Type Safe**: Full TypeScript implementation with comprehensive type definitions
 - **Visual Interface**: Animated web console for real-time testing and demonstration
-- **Well Tested**: Comprehensive test suite with 100% coverage of core functionality
+- **Well Tested**: Comprehensive test suite with unit and integration tests
 - **Documented**: Clean, readable code with detailed documentation
+- **SOLID Principles**: Modular architecture following Single Responsibility Principle
+- **Dependency Injection**: Flexible dependency management with strategy pattern
+- **Configuration-Driven**: External rule configuration for easy maintenance
+- **Strategy Pattern**: Dynamic outcome prediction strategies (Rule-based & Probabilistic)
+- **Cricket Realism Validation**: Fun error messages for unrealistic bowling-shot combinations
+- **Voice Commentary**: Web Speech API integration for audio feedback
 
 ## 🚀 Quick Start
 
@@ -77,7 +83,7 @@ npm run dev challenge1 "Bouncer Pull Perfect"
 npm run dev challenge2 "Bouncer Pull Late"
 
 # Run Challenge 3 (Super Over)
-npm run dev challenge3 "Straight Perfect\nFlick Early\nHook Good\nLegLance Good\nLongOff Late\nLongOn Perfect"
+npm run dev challenge3 "Straight Perfect\nFlick Early\nSweep Good\nLegGlance Good\nSquareCut Late\nCoverDrive Perfect"
 
 # Show sample inputs/outputs
 npm run dev samples
@@ -94,13 +100,11 @@ npm run dev
 The web interface provides an animated console-like experience with voice commentary:
 
 1. **Challenge #1 Panel**:
-
    - Enter bowling type, shot type, and timing
    - Click "Run Challenge 1" to see predicted outcomes
    - Use "Load Sample" for example input
 
 2. **Challenge #2 Panel**:
-
    - Same input format as Challenge #1
    - Generates commentary + outcome
    - Real-time animated output display
@@ -127,11 +131,18 @@ Pace Straight Good
 ```
 Straight Perfect
 Flick Early
-Hook Good
-LegLance Good
-LongOff Late
-LongOn Perfect
+Sweep Good
+LegGlance Good
+SquareCut Late
+CoverDrive Perfect
 ```
+
+**Fun Unrealistic Samples:**
+
+Try the "Try Unrealistic Combinations" buttons in each challenge panel to see fun cricket physics validation messages like:
+
+- "Sweeping a bouncer? That's like trying to sweep the ceiling!"
+- "Scooping a doosra? That's like trying to scoop ice cream with a spoon that keeps changing direction!"
 
 ### Expected Outputs
 
@@ -154,52 +165,87 @@ Just over the fielder. - 3 runs
 **Challenge 3:**
 
 ```
-Sudhakar bowled Bouncer ball,
-Craig played Perfect Straight shot
+Brett Lee bowled Bouncer ball,
+Rahul Dravid played Perfect Straight shot
 Excellent line and length - 4 runs
 
-Sudhakar bowled Inswinger ball,
-Craig played Early Flick shot
+Brett Lee bowled Inswinger ball,
+Rahul Dravid played Early Flick shot
 Convert ones into twos - 1 run
 
 ... (bowl-by-bowl commentary)
 
-AUSTRALIA scored: 18 runs
-AUSTRALIA won by 2 wickets
+INDIA scored: 18 runs
+INDIA won by 2 wickets
 ```
 
 ## 🏗️ Architecture & Design
 
-### Core Components
+### Refactored Architecture
 
-1. **OutcomeEngine** (`src/outcome-engine.ts`)
+The system follows **SOLID principles** with a clean, modular architecture:
 
-   - Maps bowling-shot-timing combinations to outcomes
-   - Uses hash map for O(1) lookup performance
-   - Implements cricket strategy rules
+#### Core Services
 
-2. **CommentaryEngine** (`src/commentary-engine.ts`)
+1. **Challenge1Service** (`src/services/challenge1-service.ts`)
+   - Handles outcome prediction for Challenge 1
+   - Uses dependency injection for flexibility
+   - Validates input and processes multiple lines
 
+2. **Challenge2Service** (`src/services/challenge2-service.ts`)
+   - Combines outcome prediction with commentary generation
+   - Formats output with commentary + outcome
+   - Extends Challenge 1 functionality
+
+3. **Challenge3Service** (`src/services/challenge3-service.ts`)
+   - Simulates complete Super Over matches
+   - Manages bowling cards, target runs, and wicket tracking
+   - Generates comprehensive match commentary and results
+
+#### Engines & Strategies
+
+4. **OutcomeEngine** (`src/engines/outcome-engine.ts`)
+   - Strategy-based outcome prediction
+   - Supports multiple prediction strategies
+   - O(1) lookup performance with hash maps
+
+5. **CommentaryEngine** (`src/engines/commentary-engine.ts`)
    - Generates appropriate commentary based on outcomes
    - Maps outcomes to commentary types
    - Provides formatted commentary strings
 
-3. **Challenge1** (`src/challenge1.ts`)
+6. **Strategy Pattern Implementation**
+   - **RuleBasedOutcomeStrategy**: Uses predefined rules from configuration
+   - **ProbabilisticOutcomeStrategy**: Probability-based calculations
+   - Dynamic strategy switching at runtime
 
-   - Implements outcome prediction logic
-   - Handles input parsing and validation
-   - Processes multiple input lines
+#### Parsers & Formatters
 
-4. **Challenge2** (`src/challenge2.ts`)
+7. **CricketInputParser** (`src/parsers/cricket-input-parser.ts`)
+   - Parses standard cricket inputs (bowling, shot, timing)
+   - Handles multi-word bowling and shot types
+   - Comprehensive input validation
 
-   - Combines outcome prediction with commentary
-   - Formats output with commentary + outcome
-   - Extends Challenge 1 functionality
+8. **SuperOverParser** (`src/parsers/super-over-parser.ts`)
+   - Specialized parser for Super Over shot inputs
+   - Validates shot types and timing
 
-5. **Challenge3** (`src/challenge3.ts`)
-   - Simulates complete Super Over matches
-   - Manages bowling cards, target runs, and wicket tracking
-   - Generates comprehensive match commentary and results
+9. **Output Formatters**
+   - **CommentaryFormatter**: Formats commentary output
+   - **SuperOverFormatter**: Formats Super Over results with bowl-by-bowl commentary
+
+#### Configuration & Dependency Management
+
+10. **DependencyContainer** (`src/container/dependency-container.ts`)
+    - Implements dependency injection
+    - Manages service instances and strategy switching
+    - Provides clean separation of concerns
+
+11. **Configuration Files**
+    - **outcome-rules.ts**: Centralized outcome prediction rules
+    - **commentary-rules.ts**: Commentary generation rules
+    - **game-rules.ts**: Game constants and rules
+    - **cricket-realism-rules.ts**: Unrealistic bowling-shot combinations with fun error messages
 
 ### Data Structures
 
@@ -249,11 +295,20 @@ interface CricketOutput {
 Run the comprehensive test suite:
 
 ```bash
-# Run all tests
+# Run all tests (integration + unit)
 npm test
+
+# Run only unit tests
+npm run test:unit
+
+# Run only integration tests
+npm run test:integration
 
 # Run tests in watch mode
 npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
 
 # Run specific test file
 npm test challenge1.test.ts
@@ -261,12 +316,20 @@ npm test challenge1.test.ts
 
 ### Test Coverage
 
-- ✅ Input parsing and validation
-- ✅ Outcome prediction accuracy
-- ✅ Commentary generation
-- ✅ Error handling
-- ✅ Performance benchmarks
-- ✅ Edge cases and boundary conditions
+#### Unit Tests
+
+- ✅ **Parsers**: Input validation and parsing logic
+- ✅ **Services**: Business logic and service layer
+- ✅ **Strategies**: Outcome prediction strategies
+- ✅ **Error Handling**: Custom error classes and validation
+
+#### Integration Tests
+
+- ✅ **Challenge 1**: End-to-end outcome prediction
+- ✅ **Challenge 2**: Commentary generation with outcomes
+- ✅ **Challenge 3**: Complete Super Over simulation
+- ✅ **Multi-word Input**: Complex bowling and shot types
+- ✅ **Edge Cases**: Boundary conditions and error scenarios
 
 ## 📊 Cricket Strategy Rules
 
@@ -291,20 +354,56 @@ The outcome engine implements realistic cricket strategies:
 ### Project Structure
 
 ```
-everest-eng/
-├── src/                    # TypeScript source code
-│   ├── types/             # Type definitions
-│   ├── outcome-engine.ts  # Core prediction logic
-│   ├── commentary-engine.ts # Commentary generation
-│   ├── challenge1.ts      # Challenge 1 implementation
-│   ├── challenge2.ts      # Challenge 2 implementation
-│   └── index.ts           # Main entry point
-├── test/                  # Test files
-├── public/                # Web interface files
-│   ├── index.html         # Main HTML page
-│   └── app.js            # Browser JavaScript
-├── dist/                  # Compiled JavaScript
-└── docs/                  # Documentation
+cricsummit-2025/
+├── src/                           # TypeScript source code
+│   ├── app/                      # Application layer
+│   │   └── cricket-app.ts        # Main application orchestrator
+│   ├── config/                   # Configuration files
+│   │   ├── outcome-rules.ts      # Outcome prediction rules
+│   │   └── commentary-rules.ts   # Commentary generation rules
+│   ├── constants/                # Game constants
+│   │   └── game-rules.ts         # Game rules and constants
+│   ├── container/                # Dependency injection
+│   │   └── dependency-container.ts # DI container
+│   ├── engines/                  # Core engines
+│   │   ├── outcome-engine.ts     # Strategy-based outcome prediction
+│   │   └── commentary-engine.ts  # Commentary generation
+│   ├── errors/                   # Custom error classes
+│   │   └── cricket-errors.ts     # Cricket-specific errors
+│   ├── formatters/               # Output formatters
+│   │   ├── commentary-formatter.ts
+│   │   ├── super-over-formatter.ts
+│   │   └── output-formatter.interface.ts
+│   ├── parsers/                  # Input parsers
+│   │   ├── cricket-input-parser.ts
+│   │   ├── super-over-parser.ts
+│   │   └── input-parser.interface.ts
+│   ├── services/                 # Business logic services
+│   │   ├── challenge1-service.ts
+│   │   ├── challenge2-service.ts
+│   │   └── challenge3-service.ts
+│   ├── strategies/               # Outcome prediction strategies
+│   │   ├── rule-based-outcome-strategy.ts
+│   │   ├── probabilistic-outcome-strategy.ts
+│   │   └── outcome-strategy.interface.ts
+│   ├── types/                    # Type definitions
+│   │   └── index.ts              # Core types and interfaces
+│   └── index.ts                  # Main entry point
+├── test/                         # Test files
+│   ├── unit/                     # Unit tests
+│   │   ├── parsers/              # Parser unit tests
+│   │   ├── services/             # Service unit tests
+│   │   ├── strategies/           # Strategy unit tests
+│   │   └── jest.config.cjs       # Unit test configuration
+│   ├── challenge1.test.ts        # Integration tests
+│   ├── challenge2.test.ts
+│   └── challenge3.test.ts
+├── public/                       # Web interface files
+│   ├── index.html                # Main HTML page
+│   ├── app.js                    # Browser JavaScript
+│   └── *.png, *.ico              # Icons and assets
+├── dist/                         # Compiled JavaScript
+└── package.json                  # Project configuration
 ```
 
 ### Build Process
@@ -329,22 +428,62 @@ npx tsc --noEmit
 
 ### Technical Excellence
 
-- **SOLID Principles**: Single responsibility, open/closed, dependency inversion
-- **Design Patterns**: Strategy pattern for outcome rules, Factory pattern for engines
-- **Error Handling**: Robust input validation and error messages
-- **Scalability**: Efficient data structures and algorithms
-- **Maintainability**: Clear separation of concerns and documentation
+- **SOLID Principles**:
+  - **Single Responsibility**: Each class has one reason to change
+  - **Open/Closed**: Open for extension, closed for modification
+  - **Dependency Inversion**: Depend on abstractions, not concretions
+- **Design Patterns**:
+  - **Strategy Pattern**: Dynamic outcome prediction strategies
+  - **Dependency Injection**: Flexible service management
+  - **Factory Pattern**: Service instantiation and configuration
+- **Error Handling**: Custom error classes with specific error types
+- **Scalability**:
+  - Configuration-driven rules for easy maintenance
+  - Modular architecture for easy extension
+  - Efficient O(1) lookup algorithms
+- **Maintainability**:
+  - Clear separation of concerns
+  - Comprehensive documentation
+  - Extensive test coverage
 
 ## 🌟 Key Highlights
 
-1. **Technical Excellence**: Clean, performant TypeScript code
+1. **Technical Excellence**: Clean, performant TypeScript code following SOLID principles
 2. **User Experience**: Interactive web interface with animations and voice commentary
-3. **Architecture**: Modular, scalable design patterns with SOLID principles
-4. **Quality**: Comprehensive testing and documentation
-5. **Performance**: Optimized algorithms with documented complexity
-6. **Professional**: Production-ready code with proper error handling
-7. **Innovation**: Voice commentary using Web Speech API
+3. **Architecture**: Modular, scalable design with dependency injection and strategy pattern
+4. **Quality**: Comprehensive unit and integration testing with extensive coverage
+5. **Performance**: Optimized O(1) algorithms with documented complexity analysis
+6. **Professional**: Production-ready code with custom error handling and validation
+7. **Innovation**: Voice commentary using Web Speech API and dynamic strategy switching
 8. **Completeness**: All three challenges implemented with realistic cricket logic
+9. **Maintainability**: Configuration-driven rules and clear separation of concerns
+10. **Scalability**: Easy to extend with new strategies, rules, and features
+11. **Cricket Realism**: Fun validation system with humorous error messages for unrealistic combinations
+12. **Educational**: Demonstrates cricket physics and strategy through interactive examples
+
+## 🔄 Refactoring Improvements
+
+This project has been completely refactored to address key software engineering principles:
+
+### ✅ Issues Addressed
+
+- **Large Files**: Broke down monolithic classes into focused, single-responsibility modules
+- **Magic Numbers**: Replaced hardcoded values with named constants in `game-rules.ts`
+- **Tight Coupling**: Implemented dependency injection for loose coupling
+- **Single Responsibility**: Separated input parsing, outcome prediction, and error handling
+- **Testing**: Added comprehensive unit tests alongside existing integration tests
+- **Configuration**: Externalized rules to configuration files for easy maintenance
+- **Scalability**: Implemented strategy pattern for dynamic outcome prediction
+- **Error Handling**: Created custom error classes for better error identification
+
+### 🏗️ New Architecture Benefits
+
+- **Modularity**: Each component has a single, well-defined responsibility
+- **Testability**: Easy to unit test individual components in isolation
+- **Maintainability**: Changes to rules don't require code modifications
+- **Extensibility**: New strategies and rules can be added without changing existing code
+- **Flexibility**: Dynamic strategy switching at runtime
+- **Type Safety**: Comprehensive TypeScript interfaces and type definitions
 
 ## 📝 License
 

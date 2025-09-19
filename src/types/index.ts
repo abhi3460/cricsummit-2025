@@ -17,14 +17,14 @@ export type BowlingType =
 
 export type ShotType =
   | 'Straight'
-  | 'Sweep'
   | 'Flick'
-  | 'CoverDrive'
-  | 'LegLance'
-  | 'Pull'
   | 'Long On'
-  | 'Scoop'
   | 'SquareCut'
+  | 'Sweep'
+  | 'CoverDrive'
+  | 'Pull'
+  | 'Scoop'
+  | 'LegGlance'
   | 'UpperCut';
 
 export type ShotTiming = 'Early' | 'Good' | 'Perfect' | 'Late';

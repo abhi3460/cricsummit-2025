@@ -1,0 +1,382 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #0c1445 0%, #1a237e 100%);
+  color: #00ff00;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  border-bottom: 2px solid #00ff00;
+  text-align: center;
+}
+
+.header h1 {
+  color: #ffff00;
+  font-size: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5);
+}
+
+.header p {
+  color: #00ff00;
+  margin-top: 0.5rem;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reference-panel {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.reference-panel h3 {
+  color: #ffff00;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  user-select: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reference-panel h3:hover {
+  color: #00ff00;
+}
+
+.reference-content {
+  display: block;
+  padding-top: 1rem;
+}
+
+.enum-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.enum-section {
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.enum-section h4 {
+  color: #ffff00;
+  margin-bottom: 0.5rem;
+  font-size: 12px;
+}
+
+.enum-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.enum-button {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.enum-button:hover {
+  background: rgba(0, 255, 0, 0.2);
+  color: #ffff00;
+}
+
+.challenges-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1rem;
+}
+
+.panel {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #00ff00;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.panel h2 {
+  color: #ffff00;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #00ff00;
+  padding-bottom: 0.5rem;
+}
+
+.console {
+  background: #000;
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 1rem;
+  height: 350px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  margin-top: 1rem;
+  line-height: 1.4;
+}
+
+.console-line {
+  margin-bottom: 0.5rem;
+  animation: typewriter 0.5s ease-in-out;
+}
+
+.input-line {
+  color: #00ff00;
+}
+
+.output-line {
+  color: #ffff00;
+}
+
+.error-line {
+  color: #ff4444;
+}
+
+.commentary-line {
+  color: #ffaa00;
+  font-style: italic;
+}
+
+.input-area {
+  margin-bottom: 1rem;
+}
+
+.input-area label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #00ff00;
+  font-size: 12px;
+}
+
+.input-area textarea {
+  width: 100%;
+  background: #000;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-family: 'Courier New', monospace;
+  resize: vertical;
+  min-height: 80px;
+  font-size: 11px;
+}
+
+.button-group {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button {
+  background: linear-gradient(45deg, #00ff00, #00aa00);
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #00aa00, #00ff00);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.sample-button {
+  background: linear-gradient(45deg, #ffff00, #ffaa00);
+  color: #000;
+}
+
+.sample-button:hover {
+  background: linear-gradient(45deg, #ffaa00, #ffff00);
+}
+
+.stats {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.stats h3 {
+  color: #ffff00;
+  margin-bottom: 0.5rem;
+  font-size: 12px;
+}
+
+.stats p {
+  margin-bottom: 0.25rem;
+  font-size: 10px;
+}
+
+.enum-values {
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  font-size: 10px;
+}
+
+.enum-values h4 {
+  color: #ffff00;
+  margin-bottom: 0.5rem;
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.enum-values h4:hover {
+  color: #00ff00;
+}
+
+.enum-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@keyframes typewriter {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Toast Notification Styles */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 255, 0, 0.9);
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: 1px solid #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.success {
+  background: rgba(0, 255, 0, 0.9);
+  color: #000;
+  border-color: #00ff00;
+}
+
+.toast.error {
+  background: rgba(255, 0, 0, 0.9);
+  color: #fff;
+  border-color: #ff0000;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.toast::before {
+  content: '📋 ';
+  margin-right: 8px;
+}
+
+.toast.error::before {
+  content: '❌ ';
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .console {
+    height: 250px;
+  }
+
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+  }
+}

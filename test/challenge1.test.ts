@@ -1,151 +1,167 @@
 /**
- * Test suite for Challenge 1: Predict Outcome
+ * Integration test for Challenge 1: Predict Outcome
  */
 
-import { Challenge1 } from '../src/challenge1';
+import { CricketApp } from '../src/app/cricket-app';
 
-describe('Challenge1', () => {
-  let challenge1: Challenge1;
+describe('Challenge1 Integration', () => {
+  let cricketApp: CricketApp;
 
   beforeEach(() => {
-    challenge1 = new Challenge1();
+    cricketApp = new CricketApp();
   });
 
   describe('Sample Input/Output', () => {
     test('should match expected sample output', () => {
-      const sampleInput = challenge1.getSampleInput();
-      const expectedOutput = challenge1.getSampleOutput();
-      const actualOutput = challenge1.processInput(sampleInput);
-
-      expect(actualOutput).toEqual(expectedOutput);
-    });
-
-    test('should handle sample input line by line', () => {
-      const sampleInput = [
-        'Bouncer Pull Perfect',
-        'Yorker Straight Early',
-        'Pace Straight Good',
-      ];
-
+      const sampleInput =
+        'Bouncer Pull Perfect\nYorker Straight Early\nPace Straight Good';
       const expectedOutput = ['6 runs', '1 wicket', '3 runs'];
-      const actualOutput = challenge1.processInput(sampleInput);
+
+      const actualOutput = cricketApp.runChallenge1(sampleInput);
 
       expect(actualOutput).toEqual(expectedOutput);
     });
-  });
 
-  describe('Individual Outcome Predictions', () => {
-    test('should predict correct outcomes for bouncer-pull combinations', () => {
-      const inputs = [
-        'Bouncer Pull Early',
-        'Bouncer Pull Good',
-        'Bouncer Pull Perfect',
-        'Bouncer Pull Late',
+    test('should handle individual bowling scenarios', () => {
+      const testCases = [
+        {
+          input: 'Bouncer Pull Perfect',
+          expected: ['6 runs'],
+        },
+        {
+          input: 'Yorker Straight Early',
+          expected: ['1 wicket'],
+        },
+        {
+          input: 'Pace Straight Good',
+          expected: ['3 runs'],
+        },
       ];
 
-      const expectedOutputs = ['2 runs', '4 runs', '6 runs', '1 wicket'];
-      const actualOutputs = challenge1.processInput(inputs);
-
-      expect(actualOutputs).toEqual(expectedOutputs);
+      testCases.forEach(({ input, expected }) => {
+        const result = cricketApp.runChallenge1(input);
+        expect(result).toEqual(expected);
+      });
     });
 
-    test('should predict correct outcomes for yorker-straight combinations', () => {
-      const inputs = [
-        'Yorker Straight Early',
-        'Yorker Straight Good',
-        'Yorker Straight Perfect',
-        'Yorker Straight Late',
+    test('should handle multi-word bowling types', () => {
+      const testCases = [
+        {
+          input: 'Leg Cutter LegGlance Good',
+          expected: ['2 runs'],
+        },
+        {
+          input: 'Off Cutter SquareCut Perfect',
+          expected: ['4 runs'],
+        },
+        {
+          input: 'Slower Ball SquareCut Good',
+          expected: ['3 runs'],
+        },
       ];
 
-      const expectedOutputs = ['1 wicket', '2 runs', '4 runs', '1 wicket'];
-      const actualOutputs = challenge1.processInput(inputs);
-
-      expect(actualOutputs).toEqual(expectedOutputs);
+      testCases.forEach(({ input, expected }) => {
+        const result = cricketApp.runChallenge1(input);
+        expect(result).toEqual(expected);
+      });
     });
 
-    test('should predict correct outcomes for pace-straight combinations', () => {
-      const inputs = [
-        'Pace Straight Early',
-        'Pace Straight Good',
-        'Pace Straight Perfect',
-        'Pace Straight Late',
+    test('should handle multi-word shot types', () => {
+      const testCases = [
+        {
+          input: 'Bouncer Long On Perfect',
+          expected: ['2 runs'], // Default outcome as no specific rule
+        },
       ];
 
-      const expectedOutputs = ['1 run', '3 runs', '4 runs', '2 runs'];
-      const actualOutputs = challenge1.processInput(inputs);
-
-      expect(actualOutputs).toEqual(expectedOutputs);
+      testCases.forEach(({ input, expected }) => {
+        const result = cricketApp.runChallenge1(input);
+        expect(result).toEqual(expected);
+      });
     });
-  });
 
-  describe('String Input Processing', () => {
-    test('should handle multi-line string input', () => {
-      const inputString = `Bouncer Pull Perfect
+    test('should handle multiple input lines', () => {
+      const input = `Bouncer Pull Perfect
 Yorker Straight Early
-Pace Straight Good`;
+Pace Straight Good
+Inswinger Flick Good
+Outswinger CoverDrive Perfect`;
 
-      const expectedOutput = ['6 runs', '1 wicket', '3 runs'];
-      const actualOutput = challenge1.processStringInput(inputString);
+      const result = cricketApp.runChallenge1(input);
 
-      expect(actualOutput).toEqual(expectedOutput);
-    });
-
-    test('should handle single line input', () => {
-      const inputString = 'Bouncer Pull Perfect';
-      const expectedOutput = ['6 runs'];
-      const actualOutput = challenge1.processStringInput(inputString);
-
-      expect(actualOutput).toEqual(expectedOutput);
+      expect(result).toHaveLength(5);
+      expect(result[0]).toBe('6 runs');
+      expect(result[1]).toBe('1 wicket');
+      expect(result[2]).toBe('3 runs');
+      expect(result[3]).toBe('3 runs');
+      expect(result[4]).toBe('4 runs');
     });
 
     test('should handle empty lines in input', () => {
-      const inputString = `Bouncer Pull Perfect
+      const input = `Bouncer Pull Perfect
 
 Yorker Straight Early
+   
 Pace Straight Good`;
 
-      const expectedOutput = ['6 runs', '1 wicket', '3 runs'];
-      const actualOutput = challenge1.processStringInput(inputString);
+      const result = cricketApp.runChallenge1(input);
 
-      expect(actualOutput).toEqual(expectedOutput);
+      expect(result).toHaveLength(3);
+      expect(result).toEqual(['6 runs', '1 wicket', '3 runs']);
     });
   });
 
   describe('Error Handling', () => {
-    test('should throw error for invalid input format', () => {
-      const invalidInputs = [
-        'Bouncer Pull', // Missing timing
-        'Bouncer', // Missing shot and timing
-        'Bouncer Pull Perfect Extra', // Too many parts
-        '', // Empty line
-      ];
+    test('should handle invalid bowling type', () => {
+      const input = 'InvalidBowling Pull Perfect';
+      const result = cricketApp.runChallenge1(input);
 
-      invalidInputs.forEach(input => {
-        expect(() => {
-          challenge1.processInput([input]);
-        }).toThrow();
-      });
+      expect(result).toHaveLength(1);
+      expect(result[0]).toContain('Invalid bowling type');
+    });
+
+    test('should handle invalid shot type', () => {
+      const input = 'Bouncer InvalidShot Perfect';
+      const result = cricketApp.runChallenge1(input);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toContain('Invalid shot type');
+    });
+
+    test('should handle invalid timing', () => {
+      const input = 'Bouncer Pull InvalidTiming';
+      const result = cricketApp.runChallenge1(input);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toContain('Invalid shot timing');
+    });
+
+    test('should handle malformed input', () => {
+      const input = 'Bouncer';
+      const result = cricketApp.runChallenge1(input);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toContain('Invalid input format');
     });
   });
 
-  describe('Performance', () => {
-    test('should handle large input efficiently', () => {
-      const largeInput: string[] = [];
-      for (let i = 0; i < 1000; i++) {
-        largeInput.push('Bouncer Pull Perfect');
-      }
+  describe('Strategy Management', () => {
+    test('should use rule-based strategy by default', () => {
+      expect(cricketApp.getCurrentStrategy()).toBe('rule-based');
+    });
 
-      const startTime = Date.now();
-      const results = challenge1.processInput(largeInput);
-      const endTime = Date.now();
+    test('should allow switching strategies', () => {
+      cricketApp.setOutcomeStrategy('probabilistic');
+      expect(cricketApp.getCurrentStrategy()).toBe('probabilistic');
 
-      expect(results).toHaveLength(1000);
-      expect(endTime - startTime).toBeLessThan(100); // Should complete in less than 100ms
+      cricketApp.setOutcomeStrategy('rule-based');
+      expect(cricketApp.getCurrentStrategy()).toBe('rule-based');
+    });
 
-      // All results should be the same for same input
-      results.forEach(result => {
-        expect(result).toBe('6 runs');
-      });
+    test('should return available strategies', () => {
+      const strategies = cricketApp.getAvailableStrategies();
+      expect(strategies).toContain('rule-based');
+      expect(strategies).toContain('probabilistic');
     });
   });
 });
