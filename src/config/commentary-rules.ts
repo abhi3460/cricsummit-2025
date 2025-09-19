@@ -5,13 +5,13 @@
 
 import { ShotOutcome, CommentaryType } from '../types';
 
-export interface CommentaryRule {
+interface CommentaryRule {
   outcome: ShotOutcome;
   commentaryType: CommentaryType;
   text: string;
 }
 
-export const COMMENTARY_RULES: CommentaryRule[] = [
+const COMMENTARY_RULES: CommentaryRule[] = [
   {
     outcome: '1 wicket',
     commentaryType: 'wicket',
@@ -49,7 +49,7 @@ export const COMMENTARY_RULES: CommentaryRule[] = [
   },
 ];
 
-export const DEFAULT_COMMENTARY = {
+const DEFAULT_COMMENTARY = {
   commentaryType: 'excellent-line-length' as CommentaryType,
   text: 'Excellent line and length.',
 };

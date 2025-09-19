@@ -5,7 +5,7 @@
 
 import { BowlingType, ShotType } from '../types';
 
-export interface UnrealisticCombination {
+interface UnrealisticCombination {
   bowlingType: BowlingType;
   shotType: ShotType;
   reason: string;
@@ -13,7 +13,7 @@ export interface UnrealisticCombination {
   alternativeSuggestion?: string;
 }
 
-export const UNREALISTIC_COMBINATIONS: UnrealisticCombination[] = [
+const UNREALISTIC_COMBINATIONS: UnrealisticCombination[] = [
   {
     bowlingType: 'Bouncer',
     shotType: 'Sweep',

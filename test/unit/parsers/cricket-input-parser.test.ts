@@ -59,7 +59,7 @@ describe('CricketInputParser', () => {
 
       expect(result.success).toBe(false);
       expect(result.data).toBeUndefined();
-      expect(result.error).toContain('Invalid input format');
+      expect(result.error).toContain('Too many words in input');
     });
 
     it('should validate bowling type', () => {

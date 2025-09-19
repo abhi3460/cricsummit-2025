@@ -10,10 +10,7 @@ import {
   OutcomePredictionError,
   ConfigurationError,
 } from '../errors/cricket-errors';
-import {
-  isUnrealisticCombination,
-  getRandomFunMessage,
-} from '../config/cricket-realism-rules';
+import { isUnrealisticCombination } from '../config/cricket-realism-rules';
 
 export interface IOutcomeEngine {
   predictOutcome(

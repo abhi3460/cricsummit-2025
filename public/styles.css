@@ -69,6 +69,23 @@ body {
 .reference-content {
   display: block;
   padding-top: 1rem;
+  transition: all 0.3s ease;
+  max-height: 1000px;
+  overflow: hidden;
+}
+
+.reference-content.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#accordionIcon {
+  transition: transform 0.3s ease;
+}
+
+#accordionIcon.rotated {
+  transform: rotate(-90deg);
 }
 
 .enum-grid {
@@ -110,6 +127,46 @@ body {
 .enum-button:hover {
   background: rgba(0, 255, 0, 0.2);
   color: #ffff00;
+  cursor: pointer;
+}
+
+.copy-button {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover::after {
+  content: '📋 Copy';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #00ff00;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 1000;
+  border: 1px solid #00ff00;
+}
+
+.copy-button.copied {
+  background: rgba(0, 255, 0, 0.3);
+  color: #ffffff;
+  animation: copyPulse 0.6s ease;
+}
+
+@keyframes copyPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .challenges-container {

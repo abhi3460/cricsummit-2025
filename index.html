@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRICSUMMIT'25 - Cricket Prediction Console</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/public/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon.png">
+  <link rel="manifest" href="/public/site.webmanifest">
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+
+<body>
+  <div class="header">
+    <h1>🏏 CRICSUMMIT'25 🏏</h1>
+    <p>Cricket Outcome Prediction & Commentary System</p>
+    <button id="voiceToggle" style="margin-top: 1rem;">🔇 Voice OFF</button>
+  </div>
+
+  <div class="container">
+    <!-- Quick Options Panel -->
+    <div class="reference-panel">
+      <h3 id="quickOptionsToggle">📋 Quick Options Reference <span id="accordionIcon">▼</span></h3>
+      <div class="reference-content" id="quickOptionsContent">
+        <div class="enum-grid">
+          <div class="enum-section">
+            <h4>🏏 Bowling Types</h4>
+            <div class="enum-buttons">
+              <button class="enum-button copy-button" data-bowling="Bouncer" title="Click to copy to clipboard">Bouncer</button>
+              <button class="enum-button copy-button" data-bowling="Inswinger" title="Click to copy to clipboard">Inswinger</button>
+              <button class="enum-button copy-button" data-bowling="Outswinger" title="Click to copy to clipboard">Outswinger</button>
+              <button class="enum-button copy-button" data-bowling="Leg Cutter" title="Click to copy to clipboard">Leg Cutter</button>
+              <button class="enum-button copy-button" data-bowling="Off Cutter" title="Click to copy to clipboard">Off Cutter</button>
+              <button class="enum-button copy-button" data-bowling="Slower Ball" title="Click to copy to clipboard">Slower Ball</button>
+              <button class="enum-button copy-button" data-bowling="Yorker" title="Click to copy to clipboard">Yorker</button>
+              <button class="enum-button copy-button" data-bowling="Pace" title="Click to copy to clipboard">Pace</button>
+              <button class="enum-button copy-button" data-bowling="Off Break" title="Click to copy to clipboard">Off Break</button>
+              <button class="enum-button copy-button" data-bowling="Doosra" title="Click to copy to clipboard">Doosra</button>
+            </div>
+          </div>
+
+          <div class="enum-section">
+            <h4>🎯 Shot Types</h4>
+            <div class="enum-buttons">
+              <button class="enum-button copy-button" data-shot="Straight" title="Click to copy to clipboard">Straight</button>
+              <button class="enum-button copy-button" data-shot="Flick" title="Click to copy to clipboard">Flick</button>
+              <button class="enum-button copy-button" data-shot="Long On" title="Click to copy to clipboard">Long On</button>
+              <button class="enum-button copy-button" data-shot="SquareCut" title="Click to copy to clipboard">SquareCut</button>
+              <button class="enum-button copy-button" data-shot="Sweep" title="Click to copy to clipboard">Sweep</button>
+              <button class="enum-button copy-button" data-shot="CoverDrive" title="Click to copy to clipboard">CoverDrive</button>
+              <button class="enum-button copy-button" data-shot="Pull" title="Click to copy to clipboard">Pull</button>
+              <button class="enum-button copy-button" data-shot="Scoop" title="Click to copy to clipboard">Scoop</button>
+              <button class="enum-button copy-button" data-shot="LegGlance" title="Click to copy to clipboard">LegGlance</button>
+              <button class="enum-button copy-button" data-shot="UpperCut" title="Click to copy to clipboard">UpperCut</button>
+            </div>
+          </div>
+
+          <div class="enum-section">
+            <h4>⏰ Shot Timing</h4>
+            <div class="enum-buttons">
+              <button class="enum-button copy-button" data-timing="Early" title="Click to copy to clipboard">Early</button>
+              <button class="enum-button copy-button" data-timing="Good" title="Click to copy to clipboard">Good</button>
+              <button class="enum-button copy-button" data-timing="Perfect" title="Click to copy to clipboard">Perfect</button>
+              <button class="enum-button copy-button" data-timing="Late" title="Click to copy to clipboard">Late</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="challenges-container">
+      <div class="panel">
+        <h2>Challenge #1: Predict Outcome</h2>
+        <div class="input-area">
+          <div class="button-group">
+            <button id="runChallenge1">Run Challenge 1</button>
+            <button class="sample-button" id="loadSample1">Load Sample</button>
+            <button id="clearConsole1">Clear</button>
+            <button class="sample-button" id="loadUnrealistic1">Try Unrealistic Combinations</button>
+          </div>
+          <label for="input1">Input: bowl_card_name shot_card_name shot_timing</label>
+          <textarea id="input1" placeholder="Enter input lines...&#10;Example:&#10;Bouncer Pull Perfect&#10;Yorker Straight Early"></textarea>
+          <div id="console1" class="console"></div>
+        </div>
+        <div class="stats">
+          <h3>Time Complexity</h3>
+          <p>• Lookup: O(1) per prediction</p>
+          <p>• Processing: O(n) for n inputs</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Challenge #2: Commentary</h2>
+        <div class="input-area">
+          <div class="button-group">
+            <button id="runChallenge2">Run Challenge 2</button>
+            <button class="sample-button" id="loadSample2">Load Sample</button>
+            <button id="clearConsole2">Clear</button>
+            <button class="sample-button" id="loadUnrealistic2">Try Unrealistic Combinations</button>
+          </div>
+          <label for="input2">Input: bowl_card_name shot_card_name shot_timing</label>
+          <textarea id="input2" placeholder="Enter input lines...&#10;Example:&#10;Bouncer Pull Late"></textarea>
+          <div id="console2" class="console"></div>
+        </div>
+        <div class="stats">
+          <h3>Features</h3>
+          <p>• Voice commentary support</p>
+          <p>• Real-time feedback</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Challenge #3: Super Over</h2>
+        <div class="input-area">
+          <div class="button-group">
+            <button id="runChallenge3">Run Super Over</button>
+            <button class="sample-button" id="loadSample3">Load Sample</button>
+            <button id="clearConsole3">Clear</button>
+            <button class="sample-button" id="loadUnrealistic3">Try Unrealistic Combinations</button>
+          </div>
+          <label for="input3">Input: 6 lines of shot_name shot_timing</label>
+          <textarea id="input3" placeholder="Enter 6 shot inputs...&#10;Example:&#10;Straight Perfect&#10;Flick Early&#10;Pull Good&#10;LegGlance Good&#10;Long On Late&#10;UpperCut Perfect"></textarea>
+          <div id="console3" class="console"></div>
+        </div>
+        <div class="stats">
+          <h3>Super Over Rules</h3>
+          <p>• 6 balls, 2 wickets max</p>
+          <p>• Bowl-by-ball commentary</p>
+          <p>• Match result & margin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/browser-app.ts"></script>
+</body>
+
+</html>

@@ -45,7 +45,7 @@ This project implements three main challenges from CRICSUMMIT'25:
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
 
 ### Installation
@@ -64,35 +64,39 @@ npm run build
 
 ### Running the Application
 
-#### Option 1: Web Interface (Recommended for Demo)
+#### Option 1: Web Interface with Vite (Recommended)
 
 ```bash
-# Start the web server
-npm run serve
+# Start the modern development server
+npm run dev
 
-# Open browser to http://localhost:3000
+# Opens automatically at http://localhost:3000
 ```
 
 #### Option 2: Command Line Interface
 
 ```bash
 # Run Challenge 1
-npm run dev challenge1 "Bouncer Pull Perfect"
+npm run dev:cli challenge1 "Bouncer Pull Perfect"
 
 # Run Challenge 2
-npm run dev challenge2 "Bouncer Pull Late"
+npm run dev:cli challenge2 "Bouncer Pull Late"
 
 # Run Challenge 3 (Super Over)
-npm run dev challenge3 "Straight Perfect\nFlick Early\nSweep Good\nLegGlance Good\nSquareCut Late\nCoverDrive Perfect"
+npm run dev:cli challenge3 "Straight Perfect\nFlick Early\nSweep Good\nLegGlance Good\nSquareCut Late\nCoverDrive Perfect"
 
 # Show sample inputs/outputs
-npm run dev samples
+npm run dev:cli samples
 ```
 
-#### Option 3: Interactive Mode
+#### Option 3: Production Build
 
 ```bash
-npm run dev
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
 ## 🎮 Web Interface Usage
@@ -179,7 +183,42 @@ INDIA scored: 18 runs
 INDIA won by 2 wickets
 ```
 
-## 🏗️ Architecture & Design
+## 🏗️ Modern Architecture & Design
+
+### 🆕 Latest Improvements (2025 Update)
+
+This project has been **completely modernized** with the latest best practices:
+
+#### **Vite Integration & Modern Tooling**
+
+- ✅ **Vite** for lightning-fast development and optimized builds
+- ✅ **Modern ES Modules** with proper TypeScript configuration
+- ✅ **Zero JavaScript duplication** - pure TypeScript implementation
+- ✅ **Hot Module Replacement (HMR)** for instant development feedback
+- ✅ **Optimized bundling** with automatic code splitting
+
+#### **Enhanced Modularity**
+
+- ✅ **Micro-modules**: Large files broken down into focused, single-responsibility modules
+- ✅ **Outcome Rules**: Separated into bowling-type-specific modules (fast, swing, spin, variation)
+- ✅ **Parser Components**: Validator, Multi-word parser, Error handler as separate modules
+- ✅ **Test Utilities**: Comprehensive test helpers with data generators and assertions
+- ✅ **Performance Optimized**: Sub-modules for better tree-shaking and maintainability
+
+#### **Advanced Testing Framework**
+
+- ✅ **Enhanced Unit Tests**: Comprehensive test coverage with specialized utilities
+- ✅ **Performance Testing**: Built-in performance measurement and scaling tests
+- ✅ **Scenario Builders**: Complex test scenario creation with fluent API
+- ✅ **Mock Factories**: Sophisticated test doubles for isolated testing
+- ✅ **Edge Case Coverage**: Exhaustive testing of boundary conditions
+
+#### **Developer Experience**
+
+- ✅ **Modern Event Handling**: No global functions, clean TypeScript classes
+- ✅ **Type Safety**: Enhanced TypeScript types with better inference
+- ✅ **Error Handling**: Detailed error messages with suggestions and context
+- ✅ **Debugging Tools**: Advanced parsing hints and validation feedback
 
 ### Refactored Architecture
 
@@ -351,7 +390,7 @@ The outcome engine implements realistic cricket strategies:
 
 ## 🔧 Development
 
-### Project Structure
+### Modern Project Structure
 
 ```
 cricsummit-2025/
@@ -359,8 +398,14 @@ cricsummit-2025/
 │   ├── app/                      # Application layer
 │   │   └── cricket-app.ts        # Main application orchestrator
 │   ├── config/                   # Configuration files
-│   │   ├── outcome-rules.ts      # Outcome prediction rules
-│   │   └── commentary-rules.ts   # Commentary generation rules
+│   │   ├── outcome-rules/        # 🆕 Modular outcome rules
+│   │   │   ├── index.ts          # Main rules aggregator
+│   │   │   ├── fast-bowling-rules.ts    # Bouncer, Yorker, Pace
+│   │   │   ├── swing-bowling-rules.ts   # Inswinger, Outswinger
+│   │   │   ├── spin-bowling-rules.ts    # Off Break, Doosra
+│   │   │   └── variation-bowling-rules.ts # Slower Ball, Cutters
+│   │   ├── outcome-rules.ts      # Legacy interface (backward compatibility)
+│   │   ├── commentary-rules.ts   # Commentary generation rules
 │   ├── constants/                # Game constants
 │   │   └── game-rules.ts         # Game rules and constants
 │   ├── container/                # Dependency injection
@@ -374,10 +419,16 @@ cricsummit-2025/
 │   │   ├── commentary-formatter.ts
 │   │   ├── super-over-formatter.ts
 │   │   └── output-formatter.interface.ts
-│   ├── parsers/                  # Input parsers
-│   │   ├── cricket-input-parser.ts
+│   ├── parsers/                  # 🆕 Modular input parsers
+│   │   ├── cricket-input-parser.ts      # Main parser (refactored)
 │   │   ├── super-over-parser.ts
-│   │   └── input-parser.interface.ts
+│   │   ├── input-parser.interface.ts
+│   │   ├── validators/           # Input validation modules
+│   │   │   └── cricket-input-validator.ts
+│   │   ├── utils/               # Parser utilities
+│   │   │   └── multi-word-parser.ts
+│   │   └── error-handlers/      # Specialized error handling
+│   │       └── cricket-parser-errors.ts
 │   ├── services/                 # Business logic services
 │   │   ├── challenge1-service.ts
 │   │   ├── challenge2-service.ts
@@ -390,30 +441,45 @@ cricsummit-2025/
 │   │   └── index.ts              # Core types and interfaces
 │   └── index.ts                  # Main entry point
 ├── test/                         # Test files
-│   ├── unit/                     # Unit tests
+│   ├── unit/                     # 🆕 Enhanced unit tests
 │   │   ├── parsers/              # Parser unit tests
+│   │   │   ├── cricket-input-parser.test.ts
+│   │   │   └── enhanced-cricket-input-parser.test.ts  # New comprehensive tests
 │   │   ├── services/             # Service unit tests
 │   │   ├── strategies/           # Strategy unit tests
 │   │   └── jest.config.cjs       # Unit test configuration
+│   ├── utils/                   # 🆕 Enhanced testing utilities
+│   │   └── cricket-test-helpers.ts   # Test data generators, assertions, mocks
 │   ├── challenge1.test.ts        # Integration tests
 │   ├── challenge2.test.ts
 │   └── challenge3.test.ts
-├── public/                       # Web interface files
-│   ├── index.html                # Main HTML page
-│   ├── app.js                    # Browser JavaScript
-│   └── *.png, *.ico              # Icons and assets
-├── dist/                         # Compiled JavaScript
-└── package.json                  # Project configuration
+├── public/                       # Static assets
+│   ├── styles.css               # CSS styles
+│   ├── images/                  # Icons and images
+│   └── site.webmanifest         # Web app manifest
+├── index.html                   # 🆕 Modern HTML entry point (moved to root)
+├── vite.config.ts              # 🆕 Vite configuration
+├── dist/                        # Compiled output
+│   ├── web/                    # 🆕 Web build output (Vite)
+│   └── cli/                    # CLI build output (TypeScript)
+└── package.json                 # Project configuration
 ```
 
-### Build Process
+### Modern Build Process
 
 ```bash
-# Development build with watch mode
-npm run dev
+# Development with Vite HMR
+npm run dev              # Web interface with hot reload
 
-# Production build
-npm run build
+# Development CLI mode
+npm run dev:cli          # Command-line interface
+
+# Production builds
+npm run build            # Both web and CLI builds
+npm run build:cli        # CLI build only
+
+# Preview production build
+npm run preview          # Preview web build locally
 
 # Type checking
 npx tsc --noEmit

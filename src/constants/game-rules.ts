@@ -31,4 +31,6 @@ export const ERROR_MESSAGES = {
   INVALID_SHOT_TIMING: 'Invalid shot timing',
   INVALID_SUPER_OVER_INPUT: 'Super Over requires exactly 6 shot inputs',
   EMPTY_INPUT: 'Input cannot be empty',
+  PARSING_ERROR: 'Error parsing input',
+  NO_VALID_INPUTS: 'No valid inputs found',
 } as const;

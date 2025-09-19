@@ -29,10 +29,6 @@ export class RuleBasedOutcomeStrategy implements IOutcomeStrategy {
       const outcome = this.outcomeMap.get(key);
 
       if (!outcome) {
-        // Log the missing combination for debugging
-        console.warn(
-          `No rule found for combination: ${bowlingType} + ${shotType} + ${timing}`
-        );
         return DEFAULT_OUTCOME;
       }
 
@@ -77,7 +73,7 @@ export class RuleBasedOutcomeStrategy implements IOutcomeStrategy {
           rule.shotType,
           timing as ShotTiming
         );
-        this.outcomeMap.set(key, outcome);
+        this.outcomeMap.set(key, outcome as ShotOutcome);
       });
     });
   }

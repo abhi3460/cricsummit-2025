@@ -77,6 +77,7 @@ export class Challenge3Service implements IChallenge3Service {
       }
 
       const targetRuns = this.generateTargetRuns();
+      const randomBowlingCards = this.generateRandomBowlingCards();
       let scoredRuns = 0;
       let wicketsLost = 0;
       let ballsPlayed = 0;
@@ -89,7 +90,7 @@ export class Challenge3Service implements IChallenge3Service {
         i++
       ) {
         const shotInput = parseResult.data[i];
-        const bowlingType = this.bowlingCards[i];
+        const bowlingType = randomBowlingCards[i];
 
         const ballResult = this.processBall(i + 1, bowlingType, shotInput);
 
@@ -194,6 +195,23 @@ export class Challenge3Service implements IChallenge3Service {
             1)
       ) + GAME_CONSTANTS.SUPER_OVER.MIN_TARGET_RUNS
     );
+  }
+
+  /**
+   * Generates randomized bowling cards for 6 balls
+   * Ensures variety and realistic bowling strategy
+   */
+  private generateRandomBowlingCards(): BowlingType[] {
+    const shuffledCards = [...this.bowlingCards].sort(
+      () => Math.random() - 0.5
+    );
+
+    // Ensure we have exactly 6 bowling cards for 6 balls
+    const bowlingCardsForMatch: BowlingType[] = [];
+    for (let i = 0; i < GAME_CONSTANTS.SUPER_OVER.TOTAL_BALLS; i++) {
+      bowlingCardsForMatch.push(shuffledCards[i % shuffledCards.length]);
+    }
+    return bowlingCardsForMatch;
   }
 
   private extractRunsFromOutcome(outcome: ShotOutcome): number {

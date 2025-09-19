@@ -103,6 +103,7 @@ export default [
       '*.d.ts',
       'coverage/',
       '.nyc_output/',
+      'src/test-utils/',
     ],
   },
 ];

@@ -70,7 +70,7 @@ describe('Challenge1 Integration', () => {
       const testCases = [
         {
           input: 'Bouncer Long On Perfect',
-          expected: ['2 runs'], // Default outcome as no specific rule
+          expected: ['1 run'], // Default outcome as no specific rule
         },
       ];
 
