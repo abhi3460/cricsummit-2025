@@ -1,16 +1,21 @@
 {
   "name": "cricsummit-2025",
   "version": "1.0.0",
-  "description": "Cricket outcome prediction and commentary system - CRICSUMMIT'25 Challenge",
+  "description": "Cricket outcome prediction and commentary system with realistic Super Over simulation - CRICSUMMIT'25 Challenge",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "ts-node src/index.ts",
+    "dev": "vite",
+    "dev:cli": "ts-node src/index.ts",
+    "build": "tsc && vite build",
+    "build:cli": "tsc",
+    "preview": "vite preview",
     "start": "node dist/index.js",
     "test": "jest",
+    "test:unit": "jest --config test/unit/jest.config.cjs",
+    "test:integration": "jest --config jest.config.cjs",
     "test:watch": "jest --watch",
-    "serve": "npx http-server public -p 3000 -o",
+    "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.ts test/**/*.ts",
     "lint:fix": "eslint src/**/*.ts test/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts test/**/*.ts",
@@ -26,7 +31,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.0",
+    "@types/node": "^20.10.0",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
     "eslint": "^9.35.0",
@@ -36,9 +41,8 @@
     "prettier": "^3.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.0",
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "http-server": "^14.1.1"
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vite-plugin-checker": "^0.10.3"
   }
 }

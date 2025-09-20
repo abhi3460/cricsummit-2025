@@ -1,19 +1,32 @@
 {
-  "name": "cricsummit-2025",
-  "short_name": "cricsummit-2025",
+  "name": "CRICSUMMIT'25 - Cricket Prediction Console",
+  "short_name": "CRICSUMMIT'25",
+  "description": "Advanced Cricket Outcome Prediction & Commentary System with Realistic Super Over Simulation",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#00ff00",
+  "background_color": "#000000",
+  "categories": ["sports", "games", "entertainment"],
+  "lang": "en",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/images/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/images/android-chrome-512x512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#00ff00",
-  "background_color": "rgba(0, 255, 0, 0.1)",
-  "display": "standalone"
+  ]
 }
