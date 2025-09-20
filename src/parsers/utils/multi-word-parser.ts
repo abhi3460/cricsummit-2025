@@ -8,13 +8,6 @@ import { CricketInputValidator } from '../validators/cricket-input-validator';
 import { InputParseResult } from '../input-parser.interface';
 import { ERROR_MESSAGES } from '../../constants/game-rules';
 
-interface ParsedComponents {
-  bowlingType: string;
-  shotType: string;
-  shotTiming: string;
-  remainingWords: string[];
-}
-
 /**
  * Utility class for parsing multi-word cricket terms
  */

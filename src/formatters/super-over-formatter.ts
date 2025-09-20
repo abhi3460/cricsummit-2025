@@ -13,7 +13,6 @@ export interface SuperOverBallResult {
   shotType: ShotType;
   shotTiming: ShotTiming;
   outcome: ShotOutcome;
-  commentary: string;
 }
 
 export interface SuperOverResult {
@@ -24,29 +23,31 @@ export interface SuperOverResult {
   matchResult: 'won' | 'lost';
   margin: string;
   balls: SuperOverBallResult[];
+  errors?: string[]; // Optional errors for unrealistic combinations
 }
 
 export class SuperOverFormatter implements IOutputFormatter<SuperOverResult> {
   format(data: SuperOverResult): string {
     const lines: string[] = [];
 
+    // Show errors at the top if any unrealistic combinations were detected
+    if (data.errors && data.errors.length > 0) {
+      lines.push('⚠️  Unrealistic Combinations Detected:');
+      for (const error of data.errors) {
+        lines.push(`   ${error}`);
+      }
+      lines.push(''); // Empty line
+      lines.push(
+        'Note: Bowling shots are random, so the match continues with the generated bowling cards.'
+      );
+      lines.push(''); // Empty line
+    }
+
     // Show target score at the beginning
     lines.push(
       `${GAME_CONSTANTS.PLAYERS.DEFAULT_TEAM} needs ${data.targetRuns} runs to win`
     );
     lines.push(''); // Empty line
-
-    // Format each ball
-    for (const ball of data.balls) {
-      lines.push(
-        `${GAME_CONSTANTS.PLAYERS.DEFAULT_BOWLER} bowled ${ball.bowlingType} ball,`
-      );
-      lines.push(
-        `${GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN} played ${ball.shotTiming} ${ball.shotType} shot`
-      );
-      lines.push(`${ball.commentary} - ${ball.outcome}`);
-      lines.push(''); // Empty line between balls
-    }
 
     // Format match summary
     lines.push(
@@ -61,23 +62,6 @@ export class SuperOverFormatter implements IOutputFormatter<SuperOverResult> {
 
   formatMultiple(data: SuperOverResult[]): string[] {
     return data.map(result => this.format(result));
-  }
-
-  formatBallByBall(balls: SuperOverBallResult[]): string[] {
-    const lines: string[] = [];
-
-    for (const ball of balls) {
-      lines.push(
-        `${GAME_CONSTANTS.PLAYERS.DEFAULT_BOWLER} bowled ${ball.bowlingType} ball,`
-      );
-      lines.push(
-        `${GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN} played ${ball.shotTiming} ${ball.shotType} shot`
-      );
-      lines.push(`${ball.commentary} - ${ball.outcome}`);
-      lines.push(''); // Empty line between balls
-    }
-
-    return lines;
   }
 
   formatMatchSummary(result: SuperOverResult): string[] {

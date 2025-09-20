@@ -7,8 +7,7 @@ export const GAME_CONSTANTS = {
   SUPER_OVER: {
     TOTAL_BALLS: 6,
     MAX_WICKETS: 2,
-    MIN_TARGET_RUNS: 8,
-    MAX_TARGET_RUNS: 20,
+    TARGET_RUNS: 20, // Fixed target as per challenge requirements
   },
   PLAYERS: {
     DEFAULT_BOWLER: 'Brett Lee',

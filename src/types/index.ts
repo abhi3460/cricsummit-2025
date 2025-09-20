@@ -30,6 +30,7 @@ export type ShotType =
 export type ShotTiming = 'Early' | 'Good' | 'Perfect' | 'Late';
 
 export type ShotOutcome =
+  | '0 runs'
   | '1 run'
   | '2 runs'
   | '3 runs'
@@ -47,7 +48,8 @@ export type CommentaryType =
   | 'excellent-boundary-effort'
   | 'convert-ones-twos'
   | 'massive-out-ground'
-  | 'excellent-running';
+  | 'excellent-running'
+  | 'dot-ball';
 
 export interface CricketInput {
   bowlingType: BowlingType;

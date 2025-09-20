@@ -18,15 +18,14 @@
 <body>
   <div class="header">
     <h1>🏏 CRICSUMMIT'25 🏏</h1>
-    <p>Cricket Outcome Prediction & Commentary System</p>
-    <button id="voiceToggle" style="margin-top: 1rem;">🔇 Voice OFF</button>
+    <p>Cricket Outcome Prediction & Commentary System With Realistic Super Over Simulation</p>
   </div>
 
   <div class="container">
     <!-- Quick Options Panel -->
     <div class="reference-panel">
-      <h3 id="quickOptionsToggle">📋 Quick Options Reference <span id="accordionIcon">▼</span></h3>
-      <div class="reference-content" id="quickOptionsContent">
+      <h3 id="quickOptionsToggle">📋 Quick Options Reference <span id="accordionIcon" class="rotated">▼</span></h3>
+      <div class="reference-content collapsed" id="quickOptionsContent">
         <div class="enum-grid">
           <div class="enum-section">
             <h4>🏏 Bowling Types</h4>
@@ -81,7 +80,6 @@
             <button id="runChallenge1">Run Challenge 1</button>
             <button class="sample-button" id="loadSample1">Load Sample</button>
             <button id="clearConsole1">Clear</button>
-            <button class="sample-button" id="loadUnrealistic1">Try Unrealistic Combinations</button>
           </div>
           <label for="input1">Input: bowl_card_name shot_card_name shot_timing</label>
           <textarea id="input1" placeholder="Enter input lines...&#10;Example:&#10;Bouncer Pull Perfect&#10;Yorker Straight Early"></textarea>
@@ -91,6 +89,7 @@
           <h3>Time Complexity</h3>
           <p>• Lookup: O(1) per prediction</p>
           <p>• Processing: O(n) for n inputs</p>
+          <p>• Realistic cricket outcomes</p>
         </div>
       </div>
 
@@ -101,7 +100,7 @@
             <button id="runChallenge2">Run Challenge 2</button>
             <button class="sample-button" id="loadSample2">Load Sample</button>
             <button id="clearConsole2">Clear</button>
-            <button class="sample-button" id="loadUnrealistic2">Try Unrealistic Combinations</button>
+            <button id="voiceToggle">🔇</button>
           </div>
           <label for="input2">Input: bowl_card_name shot_card_name shot_timing</label>
           <textarea id="input2" placeholder="Enter input lines...&#10;Example:&#10;Bouncer Pull Late"></textarea>
@@ -111,6 +110,7 @@
           <h3>Features</h3>
           <p>• Voice commentary support</p>
           <p>• Real-time feedback</p>
+          <p>• Realistic cricket commentary</p>
         </div>
       </div>
 
@@ -121,7 +121,6 @@
             <button id="runChallenge3">Run Super Over</button>
             <button class="sample-button" id="loadSample3">Load Sample</button>
             <button id="clearConsole3">Clear</button>
-            <button class="sample-button" id="loadUnrealistic3">Try Unrealistic Combinations</button>
           </div>
           <label for="input3">Input: 6 lines of shot_name shot_timing</label>
           <textarea id="input3" placeholder="Enter 6 shot inputs...&#10;Example:&#10;Straight Perfect&#10;Flick Early&#10;Pull Good&#10;LegGlance Good&#10;Long On Late&#10;UpperCut Perfect"></textarea>
@@ -129,8 +128,8 @@
         </div>
         <div class="stats">
           <h3>Super Over Rules</h3>
+          <p>• Target 20 runs</p>
           <p>• 6 balls, 2 wickets max</p>
-          <p>• Bowl-by-ball commentary</p>
           <p>• Match result & margin</p>
         </div>
       </div>

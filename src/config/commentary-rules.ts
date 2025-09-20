@@ -13,6 +13,11 @@ interface CommentaryRule {
 
 const COMMENTARY_RULES: CommentaryRule[] = [
   {
+    outcome: '0 runs',
+    commentaryType: 'dot-ball',
+    text: 'Dot ball, no run.',
+  },
+  {
     outcome: '1 wicket',
     commentaryType: 'wicket',
     text: "It's a wicket!",

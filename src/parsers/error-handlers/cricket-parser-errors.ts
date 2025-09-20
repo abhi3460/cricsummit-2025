@@ -9,7 +9,7 @@ import { MultiWordParser } from '../utils/multi-word-parser';
 import {
   isUnrealisticCombination,
   getRealisticAlternatives,
-  getRandomFunMessage,
+  getRealisticOutcomeMessage,
 } from '../../config/cricket-realism-rules';
 import { BowlingType, ShotType } from '../../types';
 
@@ -119,13 +119,14 @@ export class CricketParserErrorHandler {
       const alternatives = getRealisticAlternatives(bowlingType);
 
       return {
-        message: unrealisticCombo.funMessage,
+        message: getRealisticOutcomeMessage(bowlingType, shotType),
         code: 'UNREALISTIC_COMBINATION',
         suggestions: alternatives,
         context: {
           bowlingType,
           shotType,
           reason: unrealisticCombo.reason,
+          realisticOutcome: unrealisticCombo.realisticOutcome,
           alternativeSuggestion: unrealisticCombo.alternativeSuggestion,
         },
       };
@@ -133,7 +134,8 @@ export class CricketParserErrorHandler {
 
     // Fallback for any combination that might be considered unrealistic
     return {
-      message: getRandomFunMessage(),
+      message:
+        'Unrealistic combination detected - using realistic cricket outcome',
       code: 'UNREALISTIC_COMBINATION',
       suggestions: getRealisticAlternatives(bowlingType),
       context: {

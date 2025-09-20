@@ -10,7 +10,10 @@ import {
   OutcomePredictionError,
   ConfigurationError,
 } from '../errors/cricket-errors';
-import { isUnrealisticCombination } from '../config/cricket-realism-rules';
+import {
+  isUnrealisticCombination,
+  getRealisticOutcomeForUnrealisticCombination,
+} from '../config/cricket-realism-rules';
 
 export interface IOutcomeEngine {
   predictOutcome(
@@ -45,14 +48,8 @@ export class OutcomeEngine implements IOutcomeEngine {
       // Check for unrealistic combinations first
       const unrealisticCombo = isUnrealisticCombination(bowlingType, shotType);
       if (unrealisticCombo) {
-        throw new OutcomePredictionError(unrealisticCombo.funMessage, {
-          bowlingType,
-          shotType,
-          timing,
-          reason: unrealisticCombo.reason,
-          alternativeSuggestion: unrealisticCombo.alternativeSuggestion,
-          isUnrealistic: true,
-        });
+        // Return realistic outcome instead of throwing error
+        return unrealisticCombo.realisticOutcome;
       }
 
       return this.strategy.predictOutcome(bowlingType, shotType, timing);

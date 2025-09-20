@@ -5,7 +5,6 @@
 
 import { BowlingType, ShotOutcome } from '../types';
 import { IOutcomeEngine } from '../engines/outcome-engine';
-import { ICommentaryEngine } from '../engines/commentary-engine';
 import {
   SuperOverParser,
   SuperOverShotInput,
@@ -17,6 +16,7 @@ import {
 } from '../formatters/super-over-formatter';
 import { GAME_CONSTANTS } from '../constants/game-rules';
 import { InputValidationError, SuperOverError } from '../errors/cricket-errors';
+import { isUnrealisticCombination } from '../config/cricket-realism-rules';
 
 export interface IChallenge3Service {
   processInput(input: string): string[];
@@ -42,7 +42,6 @@ export class Challenge3Service implements IChallenge3Service {
 
   constructor(
     private readonly outcomeEngine: IOutcomeEngine,
-    private readonly commentaryEngine: ICommentaryEngine,
     private readonly inputParser: SuperOverParser,
     private readonly outputFormatter: SuperOverFormatter
   ) {}
@@ -76,12 +75,14 @@ export class Challenge3Service implements IChallenge3Service {
         );
       }
 
-      const targetRuns = this.generateTargetRuns();
+      // Use fixed target of 20 runs as per challenge requirements
+      const targetRuns = GAME_CONSTANTS.SUPER_OVER.TARGET_RUNS;
       const randomBowlingCards = this.generateRandomBowlingCards();
       let scoredRuns = 0;
       let wicketsLost = 0;
       let ballsPlayed = 0;
       const balls: SuperOverBallResult[] = [];
+      const errors: string[] = [];
 
       for (
         let i = 0;
@@ -93,9 +94,23 @@ export class Challenge3Service implements IChallenge3Service {
         const bowlingType = randomBowlingCards[i];
 
         const ballResult = this.processBall(i + 1, bowlingType, shotInput);
-
         balls.push(ballResult);
         ballsPlayed++;
+
+        // Check if this was an unrealistic combination and add to errors if needed
+        const unrealisticCombo = isUnrealisticCombination(
+          bowlingType,
+          shotInput.shotType
+        );
+        if (unrealisticCombo) {
+          const outcomeMessage =
+            ballResult.outcome === '0 runs'
+              ? 'ball misses stumps'
+              : 'ball hits stumps';
+          errors.push(
+            `Ball ${i + 1}: ${unrealisticCombo.reason} - ${outcomeMessage}`
+          );
+        }
 
         if (ballResult.outcome === '1 wicket') {
           wicketsLost++;
@@ -134,6 +149,7 @@ export class Challenge3Service implements IChallenge3Service {
         matchResult,
         margin,
         balls,
+        errors, // Include errors in the result
       };
     } catch (error) {
       if (error instanceof InputValidationError) {
@@ -174,27 +190,13 @@ export class Challenge3Service implements IChallenge3Service {
       shotInput.shotTiming
     );
 
-    const commentary = this.commentaryEngine.getCommentaryText(outcome);
-
     return {
       ballNumber,
       bowlingType,
       shotType: shotInput.shotType,
       shotTiming: shotInput.shotTiming,
       outcome,
-      commentary,
     };
-  }
-
-  private generateTargetRuns(): number {
-    return (
-      Math.floor(
-        Math.random() *
-          (GAME_CONSTANTS.SUPER_OVER.MAX_TARGET_RUNS -
-            GAME_CONSTANTS.SUPER_OVER.MIN_TARGET_RUNS +
-            1)
-      ) + GAME_CONSTANTS.SUPER_OVER.MIN_TARGET_RUNS
-    );
   }
 
   /**

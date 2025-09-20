@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600;700;800&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +7,7 @@
 }
 
 body {
-  font-family: 'Courier New', monospace;
+  font-family: 'Exo 2', 'Orbitron', sans-serif;
   background: linear-gradient(135deg, #0c1445 0%, #1a237e 100%);
   color: #00ff00;
   min-height: 100vh;
@@ -23,7 +25,10 @@ body {
 .header h1 {
   color: #ffff00;
   font-size: 2rem;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 900;
   text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5);
+  letter-spacing: 2px;
 }
 
 .header p {
@@ -47,7 +52,6 @@ body {
   border: 1px solid #00ff00;
   border-radius: 5px;
   padding: 1rem;
-  margin-bottom: 1rem;
 }
 
 .reference-panel h3 {
@@ -60,6 +64,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .reference-panel h3:hover {
@@ -106,6 +113,9 @@ body {
   color: #ffff00;
   margin-bottom: 0.5rem;
   font-size: 12px;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .enum-buttons {
@@ -122,6 +132,8 @@ body {
   border-radius: 3px;
   font-size: 14px;
   transition: all 0.2s ease;
+  font-family: 'Exo 2', 'Orbitron', sans-serif;
+  font-weight: 500;
 }
 
 .enum-button:hover {
@@ -190,6 +202,9 @@ body {
   margin-bottom: 1rem;
   border-bottom: 1px solid #00ff00;
   padding-bottom: 0.5rem;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .console {
@@ -199,10 +214,11 @@ body {
   padding: 1rem;
   height: 350px;
   overflow-y: auto;
-  font-family: 'Courier New', monospace;
+  font-family: 'Exo 2', 'Orbitron', monospace;
   font-size: 12px;
   margin-top: 1rem;
   line-height: 1.4;
+  font-weight: 400;
 }
 
 .console-line {
@@ -245,10 +261,11 @@ body {
   border: 1px solid #00ff00;
   border-radius: 5px;
   padding: 0.5rem;
-  font-family: 'Courier New', monospace;
+  font-family: 'Exo 2', 'Orbitron', monospace;
   resize: vertical;
   min-height: 80px;
   font-size: 11px;
+  font-weight: 400;
 }
 
 .button-group {
@@ -265,10 +282,11 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
   transition: all 0.3s ease;
-  font-family: 'Courier New', monospace;
+  font-family: 'Exo 2', 'Orbitron', sans-serif;
   font-size: 11px;
+  letter-spacing: 0.5px;
 }
 
 button:hover {
@@ -302,6 +320,9 @@ button:active {
   color: #ffff00;
   margin-bottom: 0.5rem;
   font-size: 12px;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .stats p {
@@ -324,6 +345,9 @@ button:active {
   font-size: 11px;
   cursor: pointer;
   user-select: none;
+  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .enum-values h4:hover {
@@ -375,9 +399,9 @@ button:active {
   padding: 12px 20px;
   border-radius: 5px;
   border: 1px solid #00ff00;
-  font-family: 'Courier New', monospace;
+  font-family: 'Exo 2', 'Orbitron', sans-serif;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 600;
   z-index: 1000;
   opacity: 0;
   transform: translateX(100%);

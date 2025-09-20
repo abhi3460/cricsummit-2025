@@ -1,7 +1,7 @@
 {
   "name": "cricsummit-2025",
   "version": "1.0.0",
-  "description": "Cricket outcome prediction and commentary system - CRICSUMMIT'25 Challenge",
+  "description": "Cricket outcome prediction and commentary system with realistic Super Over simulation - CRICSUMMIT'25 Challenge",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {

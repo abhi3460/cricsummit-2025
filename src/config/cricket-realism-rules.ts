@@ -1,15 +1,15 @@
 /**
  * Cricket Realism Rules Configuration
- * Defines unrealistic bowling-shot combinations with fun error messages
+ * Defines unrealistic bowling-shot combinations with realistic cricket outcomes
  */
 
-import { BowlingType, ShotType } from '../types';
+import { BowlingType, ShotType, ShotOutcome } from '../types';
 
 interface UnrealisticCombination {
   bowlingType: BowlingType;
   shotType: ShotType;
   reason: string;
-  funMessage: string;
+  realisticOutcome: ShotOutcome; // '0 runs' or '1 wicket' based on whether ball can hit stumps
   alternativeSuggestion?: string;
 }
 
@@ -18,65 +18,92 @@ const UNREALISTIC_COMBINATIONS: UnrealisticCombination[] = [
     bowlingType: 'Bouncer',
     shotType: 'Sweep',
     reason: 'You cannot sweep a bouncer - the ball is too high!',
-    funMessage:
-      "🏏 'Sweeping a bouncer? That's like trying to sweep the ceiling! The ball is way up there, mate!'",
+    realisticOutcome: '0 runs', // Bouncer cannot hit stumps
     alternativeSuggestion: 'Try Pull or UpperCut instead',
   },
   {
     bowlingType: 'Yorker',
     shotType: 'Sweep',
     reason: 'Sweeping a yorker is extremely difficult and risky',
-    funMessage:
-      "🏏 'Sweeping a yorker? Good luck with that! You might as well try to sweep the floor while the ball is at your toes!'",
+    realisticOutcome: '1 wicket', // Yorker can hit stumps
     alternativeSuggestion: 'Try Straight or Flick instead',
   },
   {
     bowlingType: 'Doosra',
     shotType: 'Scoop',
     reason: 'Scooping a doosra is extremely risky and rarely attempted',
-    funMessage:
-      "🏏 'Scooping a doosra? That's like trying to scoop ice cream with a spoon that keeps changing direction!'",
+    realisticOutcome: '1 wicket', // Doosra can hit stumps
     alternativeSuggestion: 'Try Flick or LegGlance instead',
   },
   {
     bowlingType: 'Bouncer',
     shotType: 'LegGlance',
     reason: 'Leg glancing a bouncer is very difficult due to the height',
-    funMessage:
-      "🏏 'Leg glancing a bouncer? The ball is at your head level, not your legs! Physics called, they want their laws back!'",
+    realisticOutcome: '0 runs', // Bouncer cannot hit stumps
     alternativeSuggestion: 'Try Pull or UpperCut instead',
   },
   {
     bowlingType: 'Yorker',
     shotType: 'UpperCut',
     reason: 'Upper cutting a yorker is nearly impossible',
-    funMessage:
-      "🏏 'Upper cutting a yorker? That's like trying to uppercut someone who's already on the ground!'",
+    realisticOutcome: '1 wicket', // Yorker can hit stumps
     alternativeSuggestion: 'Try Straight or Flick instead',
   },
   {
     bowlingType: 'Pace',
     shotType: 'Scoop',
     reason: 'Scooping a fast pace ball is extremely risky',
-    funMessage:
-      "🏏 'Scooping a pace ball? That's like trying to scoop a bullet! Good luck with that timing!'",
+    realisticOutcome: '1 wicket', // Pace can hit stumps
     alternativeSuggestion: 'Try Straight or CoverDrive instead',
   },
   {
     bowlingType: 'Leg Cutter',
     shotType: 'Scoop',
     reason: 'Scooping a leg cutter is very difficult',
-    funMessage:
-      "🏏 'Scooping a leg cutter? That's like trying to scoop soup with a knife! The ball is cutting away from you!'",
+    realisticOutcome: '1 wicket', // Leg Cutter can hit stumps
     alternativeSuggestion: 'Try Flick or LegGlance instead',
   },
   {
     bowlingType: 'Slower Ball',
     shotType: 'UpperCut',
     reason: 'Upper cutting a slower ball is counterproductive',
-    funMessage:
-      "🏏 'Upper cutting a slower ball? That's like trying to uppercut a feather! The ball is already slow, why make it slower?'",
+    realisticOutcome: '1 wicket', // Slower Ball can hit stumps
     alternativeSuggestion: 'Try Straight or SquareCut instead',
+  },
+  {
+    bowlingType: 'Bouncer',
+    shotType: 'Scoop',
+    reason: 'Scooping a bouncer is impossible due to the height',
+    realisticOutcome: '0 runs', // Bouncer cannot hit stumps
+    alternativeSuggestion: 'Try Pull or UpperCut instead',
+  },
+  {
+    bowlingType: 'Inswinger',
+    shotType: 'Sweep',
+    reason: 'Sweeping an inswinger is very risky',
+    realisticOutcome: '1 wicket', // Inswinger can hit stumps
+    alternativeSuggestion: 'Try Flick or LegGlance instead',
+  },
+  {
+    bowlingType: 'Outswinger',
+    shotType: 'Scoop',
+    reason: 'Scooping an outswinger is extremely difficult',
+    realisticOutcome: '1 wicket', // Outswinger can hit stumps
+    alternativeSuggestion: 'Try CoverDrive or SquareCut instead',
+  },
+  {
+    bowlingType: 'Off Break',
+    shotType: 'Scoop',
+    reason: 'Scooping an off break is very risky',
+    realisticOutcome: '1 wicket', // Off Break can hit stumps
+    alternativeSuggestion: 'Try Sweep or LegGlance instead',
+  },
+  {
+    bowlingType: 'Off Cutter',
+    shotType: 'UpperCut',
+    reason: 'Upper cutting an off cutter is counterproductive',
+    realisticOutcome: '1 wicket', // Off Cutter can hit stumps
+    alternativeSuggestion: 'Try SquareCut or CoverDrive instead',
   },
 ];
 
@@ -93,23 +120,31 @@ export function isUnrealisticCombination(
 }
 
 /**
- * Get a random fun message for any unrealistic combination
+ * Get realistic outcome for unrealistic combination
  */
-export function getRandomFunMessage(): string {
-  const messages = [
-    "🏏 'That combination is so unrealistic, even the commentators are confused!'",
-    "🏏 'Are you sure you're playing cricket and not some other sport?'",
-    "🏏 'That shot would make even the most experienced batsman scratch their head!'",
-    "🏏 'You've just invented a new shot! Call it the 'Impossible Shot'!'",
-    "🏏 'That's not cricket, that's magic! And not the good kind!'",
-    "🏏 'Even in a video game, that combination would be disabled!'",
-    "🏏 'That's so unrealistic, the ball might just disappear!'",
-    "🏏 'You've broken the laws of cricket physics!'",
-    "🏏 'That combination is so rare, it's never been attempted in cricket history!'",
-    "🏏 'Are you trying to play cricket or perform a magic trick?'",
-  ];
+export function getRealisticOutcomeForUnrealisticCombination(
+  bowlingType: BowlingType,
+  shotType: ShotType
+): ShotOutcome | undefined {
+  const combination = isUnrealisticCombination(bowlingType, shotType);
+  return combination?.realisticOutcome;
+}
 
-  return messages[Math.floor(Math.random() * messages.length)];
+/**
+ * Get realistic outcome message for unrealistic combination
+ */
+export function getRealisticOutcomeMessage(
+  bowlingType: BowlingType,
+  shotType: ShotType
+): string {
+  const combination = isUnrealisticCombination(bowlingType, shotType);
+  if (!combination) return '';
+
+  if (combination.realisticOutcome === '0 runs') {
+    return `Unrealistic shot attempt - ball misses stumps: ${combination.reason}`;
+  } else {
+    return `Unrealistic shot attempt - ball hits stumps: ${combination.reason}`;
+  }
 }
 
 /**

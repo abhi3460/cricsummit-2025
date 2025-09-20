@@ -22,9 +22,9 @@ This project implements three main challenges from CRICSUMMIT'25:
 ### Challenge #3: Super Over
 
 - **Input**: 6 lines of shot_name shot_timing
-- **Output**: Bowl-by-bowl commentary + match result
+- **Output**: Match result and summary (no bowl-by-bowl commentary)
 - **Goal**: Simulate complete Super Over with target chasing, wicket tracking, and match outcome
-- **Rules**: 6 balls, 2 wickets maximum, realistic cricket scenarios
+- **Rules**: 6 balls, 2 wickets maximum, fixed target of 20 runs, realistic cricket scenarios
 
 ## 🎯 Key Features
 
@@ -38,7 +38,7 @@ This project implements three main challenges from CRICSUMMIT'25:
 - **Dependency Injection**: Flexible dependency management with strategy pattern
 - **Configuration-Driven**: External rule configuration for easy maintenance
 - **Strategy Pattern**: Dynamic outcome prediction strategies (Rule-based & Probabilistic)
-- **Cricket Realism Validation**: Fun error messages for unrealistic bowling-shot combinations
+- **Cricket Realism Validation**: Realistic outcomes for unrealistic bowling-shot combinations (0 runs or 1 wicket)
 - **Voice Commentary**: Web Speech API integration for audio feedback
 
 ## 🚀 Quick Start
@@ -112,13 +112,13 @@ The web interface provides an animated console-like experience with voice commen
    - Same input format as Challenge #1
    - Generates commentary + outcome
    - Real-time animated output display
-   - **Voice Commentary**: Toggle voice on/off for audio feedback
+   - **Voice Commentary**: Toggle voice on/off for audio feedback (button located beside Clear button)
 
 3. **Challenge #3 Panel**:
    - Enter 6 shot inputs (shot_name shot_timing)
    - Simulates complete Super Over match
-   - Bowl-by-bowl commentary with match result
-   - Realistic cricket scenarios with target chasing
+   - Match result and summary (no bowl-by-bowl commentary)
+   - Fixed target of 20 runs with realistic cricket scenarios
 
 ### Sample Inputs
 
@@ -141,12 +141,13 @@ SquareCut Late
 CoverDrive Perfect
 ```
 
-**Fun Unrealistic Samples:**
+**Realistic Unrealistic Combinations:**
 
-Try the "Try Unrealistic Combinations" buttons in each challenge panel to see fun cricket physics validation messages like:
+Try the "Try Unrealistic Combinations" buttons in each challenge panel to see realistic cricket outcomes for unrealistic combinations:
 
-- "Sweeping a bouncer? That's like trying to sweep the ceiling!"
-- "Scooping a doosra? That's like trying to scoop ice cream with a spoon that keeps changing direction!"
+- **Bouncer + Sweep**: Results in 0 runs (bouncer can't hit stumps)
+- **Yorker + Scoop**: Results in 1 wicket (bowled/LBW - ball hits stumps)
+- **Doosra + UpperCut**: Results in 1 wicket (bowled/LBW - ball hits stumps)
 
 ### Expected Outputs
 
@@ -169,25 +170,28 @@ Just over the fielder. - 3 runs
 **Challenge 3:**
 
 ```
-Brett Lee bowled Bouncer ball,
-Rahul Dravid played Perfect Straight shot
-Excellent line and length - 4 runs
-
-Brett Lee bowled Inswinger ball,
-Rahul Dravid played Early Flick shot
-Convert ones into twos - 1 run
-
-... (bowl-by-bowl commentary)
+INDIA needs 20 runs to win
 
 INDIA scored: 18 runs
-INDIA won by 2 wickets
+INDIA lost by 2 runs
 ```
 
 ## 🏗️ Modern Architecture & Design
 
 ### 🆕 Latest Improvements (2025 Update)
 
-This project has been **completely modernized** with the latest best practices:
+This project has been **completely modernized** with the latest best practices and recent enhancements:
+
+#### **Recent Updates (January 2025)**
+
+- ✅ **Super Over Simplification**: Removed bowl-by-bowl commentary for cleaner output
+- ✅ **Fixed Target Score**: Super Over now uses fixed 20 runs target as per challenge requirements
+- ✅ **Realistic Unrealistic Outcomes**: Unrealistic combinations now result in realistic cricket outcomes (0 runs or 1 wicket)
+- ✅ **Voice Button Repositioning**: Moved voice toggle to Challenge #2 panel beside Clear button
+- ✅ **Collapsed Quick Reference**: Quick Options Reference now starts collapsed for better UX
+- ✅ **Modern Clipboard API**: Updated deprecated `document.execCommand` to modern `navigator.clipboard`
+- ✅ **Enhanced Error Handling**: Better error messages and realistic outcomes for edge cases
+- ✅ **Modern Typography**: Integrated Google Fonts (Orbitron + Exo 2) for professional, tech-forward UI design
 
 #### **Vite Integration & Modern Tooling**
 
@@ -271,7 +275,7 @@ The system follows **SOLID principles** with a clean, modular architecture:
 
 9. **Output Formatters**
    - **CommentaryFormatter**: Formats commentary output
-   - **SuperOverFormatter**: Formats Super Over results with bowl-by-bowl commentary
+   - **SuperOverFormatter**: Formats Super Over results with match summary
 
 #### Configuration & Dependency Management
 
@@ -524,7 +528,7 @@ npx tsc --noEmit
 8. **Completeness**: All three challenges implemented with realistic cricket logic
 9. **Maintainability**: Configuration-driven rules and clear separation of concerns
 10. **Scalability**: Easy to extend with new strategies, rules, and features
-11. **Cricket Realism**: Fun validation system with humorous error messages for unrealistic combinations
+11. **Cricket Realism**: Realistic outcome system for unrealistic combinations (0 runs or 1 wicket based on stump-hitting potential)
 12. **Educational**: Demonstrates cricket physics and strategy through interactive examples
 
 ## 🔄 Refactoring Improvements

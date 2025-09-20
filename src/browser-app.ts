@@ -201,7 +201,6 @@ class CricketAppBrowser {
   private loadSample(challengeNumber: 1 | 2 | 3): void {
     const sampleInput = this.cricketApp.getSampleInput(challengeNumber);
     this.setInputValue(`input${challengeNumber}`, sampleInput.join('\n'));
-    this.showToast(`Sample input loaded for Challenge ${challengeNumber}`);
   }
 
   private loadUnrealisticSample(challengeNumber: 1 | 2 | 3): void {
@@ -222,19 +221,13 @@ class CricketAppBrowser {
       `input${challengeNumber}`,
       unrealisticSamples[challengeNumber].join('\n')
     );
-    this.showToast(
-      `Unrealistic combinations loaded for Challenge ${challengeNumber}`,
-      'error'
-    );
   }
 
   private toggleVoice(): void {
     this.voice.isEnabled = !this.voice.isEnabled;
     const button = document.getElementById('voiceToggle');
     if (button) {
-      button.textContent = this.voice.isEnabled
-        ? '🔊 Voice ON'
-        : '🔇 Voice OFF';
+      button.textContent = this.voice.isEnabled ? '🔊' : '🔇';
       button.style.background = this.voice.isEnabled
         ? 'linear-gradient(45deg, #00ff00, #00aa00)'
         : 'linear-gradient(45deg, #666, #333)';
@@ -318,9 +311,9 @@ class CricketAppBrowser {
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
-        this.showToast(`📋 Copied: "${text}"`, 'success');
+        this.showToast(`Copied: "${text}"`, 'success');
       } else {
-        // Fallback for older browsers
+        // Fallback for older browsers using modern approach
         const textArea = document.createElement('textarea');
         textArea.value = text;
         textArea.style.position = 'fixed';
@@ -331,16 +324,20 @@ class CricketAppBrowser {
         textArea.select();
 
         try {
-          document.execCommand('copy');
-          this.showToast(`📋 Copied: "${text}"`, 'success');
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(text);
+            this.showToast(`Copied: "${text}"`, 'success');
+          } else {
+            this.showToast('❌ Copy not supported in this browser', 'error');
+          }
         } catch (err) {
-          this.showToast('❌ Copy failed', 'error');
+          console.error('Copy failed', err);
         } finally {
           document.body.removeChild(textArea);
         }
       }
     } catch (err) {
-      this.showToast('❌ Copy failed', 'error');
+      console.error('Copy failed', err);
     }
   }
 

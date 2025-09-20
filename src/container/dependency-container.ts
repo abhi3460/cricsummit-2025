@@ -106,7 +106,6 @@ export class DependencyContainer implements IDependencyContainer {
 
     this.challenge3Service = new Challenge3Service(
       this.outcomeEngine,
-      this.commentaryEngine,
       this.superOverParser,
       this.superOverFormatter
     );
