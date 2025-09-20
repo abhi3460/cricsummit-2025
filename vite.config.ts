@@ -17,7 +17,7 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: '/src/browser-app.ts',
+        main: './index.html',
       },
     },
   },
@@ -26,4 +26,5 @@ export default defineConfig({
     open: true,
   },
   publicDir: 'public',
+  base: './',
 });

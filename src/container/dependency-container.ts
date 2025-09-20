@@ -82,13 +82,16 @@ export class DependencyContainer implements IDependencyContainer {
 
   private initializeFormatters(): void {
     this.commentaryFormatter = new CommentaryFormatter();
-    this.superOverFormatter = new SuperOverFormatter();
+    // Initialize SuperOverFormatter after commentaryEngine is available
   }
 
   private initializeEngines(): void {
     const defaultStrategy = this.strategies.get(this.currentStrategyType);
     this.outcomeEngine = new OutcomeEngine(defaultStrategy);
     this.commentaryEngine = new CommentaryEngine();
+
+    // Initialize SuperOverFormatter with commentary engine
+    this.superOverFormatter = new SuperOverFormatter(this.commentaryEngine);
   }
 
   private initializeServices(): void {

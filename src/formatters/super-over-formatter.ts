@@ -6,6 +6,7 @@
 import { IOutputFormatter } from './output-formatter.interface';
 import { GAME_CONSTANTS } from '../constants/game-rules';
 import { BowlingType, ShotType, ShotTiming, ShotOutcome } from '../types';
+import { ICommentaryEngine } from '../engines/commentary-engine';
 
 export interface SuperOverBallResult {
   ballNumber: number;
@@ -27,6 +28,8 @@ export interface SuperOverResult {
 }
 
 export class SuperOverFormatter implements IOutputFormatter<SuperOverResult> {
+  constructor(private readonly commentaryEngine?: ICommentaryEngine) {}
+
   format(data: SuperOverResult): string {
     const lines: string[] = [];
 
@@ -48,6 +51,28 @@ export class SuperOverFormatter implements IOutputFormatter<SuperOverResult> {
       `${GAME_CONSTANTS.PLAYERS.DEFAULT_TEAM} needs ${data.targetRuns} runs to win`
     );
     lines.push(''); // Empty line
+
+    // Add bowl-by-bowl commentary
+    if (data.balls && data.balls.length > 0) {
+      lines.push('Ball-by-ball commentary:');
+      lines.push('');
+
+      for (const ball of data.balls) {
+        const commentary =
+          this.commentaryEngine?.getCommentaryText(ball.outcome) ||
+          'Ball played';
+
+        // Format with bowler and batsman names
+        lines.push(
+          `Ball ${ball.ballNumber}: ${GAME_CONSTANTS.PLAYERS.DEFAULT_BOWLER} bowls a ${ball.bowlingType.toLowerCase()}`
+        );
+        lines.push(
+          `  ${GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN} plays a ${ball.shotType.toLowerCase()} shot with ${ball.shotTiming.toLowerCase()} timing`
+        );
+        lines.push(`  ${commentary} - ${ball.outcome}`);
+        lines.push('');
+      }
+    }
 
     // Format match summary
     lines.push(

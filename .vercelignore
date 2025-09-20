@@ -1,0 +1,14 @@
+node_modules
+.git
+.gitignore
+README.md
+LICENSE
+test
+src/test-utils
+*.test.ts
+*.test.js
+jest.config.cjs
+test/
+coverage/
+.nyc_output/
+.DS_Store

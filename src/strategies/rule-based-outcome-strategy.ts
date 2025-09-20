@@ -9,7 +9,7 @@ import {
   OUTCOME_RULES,
   DEFAULT_OUTCOME,
   getOutcomeRule,
-} from '../config/outcome-rules';
+} from '../config/outcome-rules/index';
 import { OutcomePredictionError } from '../errors/cricket-errors';
 
 export class RuleBasedOutcomeStrategy implements IOutcomeStrategy {
