@@ -38,10 +38,29 @@ class CricketAppBrowser {
 
     this.voice.speechSynthesis.onvoiceschanged = () => {
       const voices = this.voice.speechSynthesis.getVoices();
+
+      // Priority order for Ravi Shastri-like voice selection
       this.voice.currentVoice =
+        // 1. Deep male voices (preferred for authoritative commentary)
+        voices.find(
+          voice =>
+            voice.lang.startsWith('en') &&
+            (voice.name.toLowerCase().includes('male') ||
+              voice.name.toLowerCase().includes('man') ||
+              voice.name.toLowerCase().includes('david') ||
+              voice.name.toLowerCase().includes('alex') ||
+              voice.name.toLowerCase().includes('daniel'))
+        ) ||
+        // 2. Google voices (usually good quality)
         voices.find(
           voice => voice.lang.startsWith('en') && voice.name.includes('Google')
         ) ||
+        // 3. Microsoft voices (often deeper)
+        voices.find(
+          voice =>
+            voice.lang.startsWith('en') && voice.name.includes('Microsoft')
+        ) ||
+        // 4. Any English voice
         voices.find(voice => voice.lang.startsWith('en')) ||
         voices[0];
     };
@@ -183,8 +202,8 @@ class CricketAppBrowser {
         );
 
         if (isCommentary && this.voice.isEnabled) {
-          const commentary = result.split('-')[0].trim();
-          this.speakCommentary(commentary);
+          // Speak the full result including the runs
+          this.speakCommentary(result);
         }
       });
     } catch (error) {
@@ -234,12 +253,13 @@ class CricketAppBrowser {
     }
 
     if (this.voice.isEnabled) {
+      const voiceName = this.voice.currentVoice?.name || 'Default';
       this.speakCommentary('Voice commentary enabled!');
+      this.showToast(`Voice enabled - ${voiceName}`);
     } else {
       this.voice.speechSynthesis.cancel();
+      this.showToast('Voice disabled');
     }
-
-    this.showToast(`Voice ${this.voice.isEnabled ? 'enabled' : 'disabled'}`);
   }
 
   private speakCommentary(commentary: string): void {
@@ -247,13 +267,57 @@ class CricketAppBrowser {
 
     this.voice.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(commentary);
+    // Enhance commentary for Ravi Shastri-style delivery
+    const enhancedCommentary = this.enhanceCommentaryForVoice(commentary);
+
+    const utterance = new SpeechSynthesisUtterance(enhancedCommentary);
     utterance.voice = this.voice.currentVoice;
-    utterance.rate = 0.9;
-    utterance.pitch = 1.0;
-    utterance.volume = 0.8;
+
+    // Optimized settings for Ravi Shastri-like commentary
+    utterance.rate = 0.75; // Slower for dramatic effect and clarity
+    utterance.pitch = 0.85; // Lower pitch for authoritative tone
+    utterance.volume = 0.95; // Higher volume for impact
 
     this.voice.speechSynthesis.speak(utterance);
+  }
+
+  private enhanceCommentaryForVoice(commentary: string): string {
+    // Split commentary and outcome parts
+    const parts = commentary.split(' - ');
+    if (parts.length !== 2) {
+      // If not in expected format, return as is
+      return commentary;
+    }
+
+    const [commentaryPart, outcomePart] = parts;
+
+    // Process commentary part
+    const enhancedCommentary = commentaryPart
+      .replace(/\./g, '... ') // Add dramatic pauses
+      .replace(/!/g, '! ') // Emphasize exclamations
+      .replace(/wicket/gi, 'WICKET!') // Emphasize wickets
+      .replace(/boundary/gi, 'BOUNDARY!') // Emphasize boundaries
+      .replace(/six/gi, 'SIX!') // Emphasize sixes
+      .replace(/four/gi, 'FOUR!'); // Emphasize fours
+
+    // Process outcome part
+    const enhancedOutcome = outcomePart
+      .replace(/0 runs/gi, 'dot ball') // Convert 0 runs to dot ball
+      .replace(/1 run/gi, 'a single') // Convert 1 run to single
+      .replace(/2 runs/gi, 'couple of runs') // Convert 2 runs to couple
+      .replace(/3 runs/gi, 'three runs') // Convert 3 runs
+      .replace(/4 runs/gi, 'FOUR runs!') // Emphasize fours
+      .replace(/5 runs/gi, 'five runs') // Convert 5 runs
+      .replace(/6 runs/gi, 'SIX runs!') // Emphasize sixes
+      .replace(/1 wicket/gi, 'WICKET!'); // Emphasize wickets
+
+    // For wickets, only speak the commentary part (no redundant "1 wicket")
+    if (outcomePart.includes('wicket')) {
+      return enhancedCommentary;
+    }
+
+    // For runs, speak both parts
+    return `${enhancedCommentary} - ${enhancedOutcome}`;
   }
 
   private fillInActiveTextarea(text: string): void {

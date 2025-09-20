@@ -5,10 +5,10 @@ export default defineConfig({
   plugins: [
     checker({
       typescript: true,
-      // Temporarily disable ESLint to fix dev server
-      // eslint: {
-      //   lintCommand: 'eslint src/**/*.ts',
-      // },
+      eslint: {
+        lintCommand: 'eslint src/**/*.ts',
+        useFlatConfig: true, // Enable ESLint v9 flat config support
+      },
     }),
   ],
   root: '.',

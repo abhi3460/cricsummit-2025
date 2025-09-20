@@ -4,6 +4,7 @@
  */
 
 import { CricketApp } from './app/cricket-app';
+import { StrategyType } from './container/dependency-container';
 
 function main(): void {
   const args = process.argv.slice(2);
@@ -114,7 +115,7 @@ function handleStrategyCommand(app: CricketApp, args: string[]): void {
   const [strategyType] = args;
 
   try {
-    app.setOutcomeStrategy(strategyType as any);
+    app.setOutcomeStrategy(strategyType as StrategyType);
     console.log(`✅ Strategy changed to: ${strategyType}`);
 
     const info = app.getStrategyInfo();
