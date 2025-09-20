@@ -8,12 +8,16 @@ import { GAME_CONSTANTS } from '../constants/game-rules';
 import { BowlingType, ShotType, ShotTiming, ShotOutcome } from '../types';
 import { ICommentaryEngine } from '../engines/commentary-engine';
 
-export interface SuperOverBallResult {
+export interface BallResult {
   ballNumber: number;
   bowlingType: BowlingType;
   shotType: ShotType;
   shotTiming: ShotTiming;
   outcome: ShotOutcome;
+}
+
+export interface SuperOverBallResult extends BallResult {
+  batsmanOnStrike: string;
 }
 
 export interface SuperOverResult {
@@ -67,7 +71,7 @@ export class SuperOverFormatter implements IOutputFormatter<SuperOverResult> {
           `Ball ${ball.ballNumber}: ${GAME_CONSTANTS.PLAYERS.DEFAULT_BOWLER} bowls a ${ball.bowlingType.toLowerCase()}`
         );
         lines.push(
-          `  ${GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN} plays a ${ball.shotType.toLowerCase()} shot with ${ball.shotTiming.toLowerCase()} timing`
+          `  ${ball.batsmanOnStrike} plays a ${ball.shotType.toLowerCase()} shot with ${ball.shotTiming.toLowerCase()} timing`
         );
         lines.push(`  ${commentary} - ${ball.outcome}`);
         lines.push('');

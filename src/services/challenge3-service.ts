@@ -13,6 +13,7 @@ import {
   SuperOverFormatter,
   SuperOverResult,
   SuperOverBallResult,
+  BallResult,
 } from '../formatters/super-over-formatter';
 import { GAME_CONSTANTS } from '../constants/game-rules';
 import { InputValidationError, SuperOverError } from '../errors/cricket-errors';
@@ -84,6 +85,17 @@ export class Challenge3Service implements IChallenge3Service {
       const balls: SuperOverBallResult[] = [];
       const errors: string[] = [];
 
+      // Batsman rotation logic
+      const allBatsmen = [
+        GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN,
+        GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN_2,
+        GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN_3,
+        GAME_CONSTANTS.PLAYERS.DEFAULT_BATSMAN_4,
+      ];
+      let batsmanOnStrike: string = allBatsmen[0];
+      let batsmanAtNonStrike: string = allBatsmen[1];
+      let nextBatsmanIndex = 2; // Index for next batsman to come in
+
       for (
         let i = 0;
         i < parseResult.data.length &&
@@ -94,7 +106,14 @@ export class Challenge3Service implements IChallenge3Service {
         const bowlingType = randomBowlingCards[i];
 
         const ballResult = this.processBall(i + 1, bowlingType, shotInput);
-        balls.push(ballResult);
+
+        // Add batsman information to ball result
+        const ballResultWithBatsman: SuperOverBallResult = {
+          ...ballResult,
+          batsmanOnStrike,
+        };
+
+        balls.push(ballResultWithBatsman);
         ballsPlayed++;
 
         // Check if this was an unrealistic combination and add to errors if needed
@@ -114,8 +133,24 @@ export class Challenge3Service implements IChallenge3Service {
 
         if (ballResult.outcome === '1 wicket') {
           wicketsLost++;
+
+          // New batsman comes in on strike
+          if (nextBatsmanIndex < allBatsmen.length) {
+            batsmanOnStrike = allBatsmen[nextBatsmanIndex];
+            nextBatsmanIndex++;
+          }
+          // Note: In real cricket, the non-striker stays the same unless it's the last wicket
         } else {
           scoredRuns += this.extractRunsFromOutcome(ballResult.outcome);
+
+          // Rotate batsmen on odd runs (1, 3, 5)
+          const runs = this.extractRunsFromOutcome(ballResult.outcome);
+          if (runs % 2 === 1) {
+            // Swap batsmen
+            const temp = batsmanOnStrike;
+            batsmanOnStrike = batsmanAtNonStrike;
+            batsmanAtNonStrike = temp;
+          }
         }
 
         // Check if target is achieved or all wickets are lost
@@ -183,7 +218,7 @@ export class Challenge3Service implements IChallenge3Service {
     ballNumber: number,
     bowlingType: BowlingType,
     shotInput: SuperOverShotInput
-  ): SuperOverBallResult {
+  ): BallResult {
     const outcome = this.outcomeEngine.predictOutcome(
       bowlingType,
       shotInput.shotType,

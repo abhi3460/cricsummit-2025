@@ -11,7 +11,10 @@ export const GAME_CONSTANTS = {
   },
   PLAYERS: {
     DEFAULT_BOWLER: 'Brett Lee',
-    DEFAULT_BATSMAN: 'Rahul Dravid', // My favorite batsman
+    DEFAULT_BATSMAN: 'Rahul Dravid',
+    DEFAULT_BATSMAN_2: 'Virender Sehwag',
+    DEFAULT_BATSMAN_3: 'Sachin Tendulkar',
+    DEFAULT_BATSMAN_4: 'Yuvraj Singh',
     DEFAULT_TEAM: 'INDIA',
   },
   VALIDATION: {
