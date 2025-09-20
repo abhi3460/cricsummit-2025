@@ -15,6 +15,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    assetsDir: 'assets',
     rollupOptions: {
       input: {
         main: './index.html',
@@ -26,5 +27,5 @@ export default defineConfig({
     open: true,
   },
   publicDir: 'public',
-  base: './',
+  base: '/',
 });
