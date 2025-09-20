@@ -22,9 +22,14 @@ This project implements three main challenges from CRICSUMMIT'25:
 ### Challenge #3: Super Over
 
 - **Input**: 6 lines of shot_name shot_timing
-- **Output**: Match result and summary (no bowl-by-bowl commentary)
+- **Output**: Complete ball-by-ball commentary with match result and summary
 - **Goal**: Simulate complete Super Over with target chasing, wicket tracking, and match outcome
 - **Rules**: 6 balls, 2 wickets maximum, fixed target of 20 runs, realistic cricket scenarios
+- **Features**:
+  - **Realistic Batsman Rotation**: 4 batsmen (Rahul Dravid, Virender Sehwag, Sachin Tendulkar, Yuvraj Singh)
+  - **Proper Strike Changes**: Batsmen swap on odd runs (1, 3, 5), stay on even runs (2, 4, 6)
+  - **Wicket Handling**: New batsman comes in when wickets fall
+  - **Enhanced Console**: Icons, animations, and color-coded outcomes
 
 ## 🎯 Key Features
 
@@ -40,6 +45,7 @@ This project implements three main challenges from CRICSUMMIT'25:
 - **Strategy Pattern**: Dynamic outcome prediction strategies (Rule-based & Probabilistic)
 - **Cricket Realism Validation**: Realistic outcomes for unrealistic bowling-shot combinations (0 runs or 1 wicket)
 - **Voice Commentary**: Web Speech API integration for audio feedback
+- **Enhanced Console UI**: Icons, animations, and color-coded outcomes for better readability
 
 ## 🚀 Quick Start
 
@@ -116,8 +122,10 @@ The web interface provides an animated console-like experience with voice commen
 
 3. **Challenge #3 Panel**:
    - Enter 6 shot inputs (shot_name shot_timing)
-   - Simulates complete Super Over match
-   - Match result and summary (no bowl-by-bowl commentary)
+   - Simulates complete Super Over match with ball-by-ball commentary
+   - **Enhanced Visual Output**: Icons, animations, and color-coded outcomes
+   - **Realistic Batsman Rotation**: Shows correct batsman for each ball with proper strike changes
+   - **Wicket Handling**: New batsman comes in when wickets fall
    - Fixed target of 20 runs with realistic cricket scenarios
 
 ### Sample Inputs
@@ -172,8 +180,34 @@ Just over the fielder. - 3 runs
 ```
 INDIA needs 20 runs to win
 
-INDIA scored: 18 runs
-INDIA lost by 2 runs
+Ball-by-ball commentary:
+
+Ball 1: Brett Lee bowls a bouncer
+  Rahul Dravid plays a pull shot with perfect timing
+  That's massive and out of the ground. - 🏏 SIX!
+
+Ball 2: Brett Lee bowls a yorker
+  Virender Sehwag plays a straight shot with early timing
+  It's a wicket! - 🚨 1 WICKET
+
+Ball 3: Brett Lee bowls a pace
+  Sachin Tendulkar plays a straight shot with good timing
+  Just over the fielder. - ⚡ 3 RUNS
+
+Ball 4: Brett Lee bowls a inswinger
+  Virender Sehwag plays a flick shot with good timing
+  Quick single taken. - ⚡ 1 RUN
+
+Ball 5: Brett Lee bowls a outswinger
+  Sachin Tendulkar plays a coverdrive shot with perfect timing
+  Excellent line and length. - 🎯 FOUR!
+
+Ball 6: Brett Lee bowls a off cutter
+  Virender Sehwag plays a squarecut shot with late timing
+  Excellent running between the wickets. - ⚡ 2 RUNS
+
+INDIA scored: 16 runs
+INDIA lost by 4 runs
 ```
 
 ## 🏗️ Modern Architecture & Design
@@ -184,7 +218,11 @@ This project has been **completely modernized** with the latest best practices a
 
 #### **Recent Updates (January 2025)**
 
-- ✅ **Super Over Simplification**: Removed bowl-by-bowl commentary for cleaner output
+- ✅ **Enhanced Console Readability**: Improved color contrast and styling for all challenges
+- ✅ **Super Over Visual Enhancements**: Added icons, animations, and color-coded outcomes
+- ✅ **Realistic Batsman Rotation**: Implemented proper cricket rules with 4 batsmen and strike changes
+- ✅ **Wicket Handling**: New batsman comes in when wickets fall in Super Over
+- ✅ **Fixed Commentary Issues**: Corrected illogical "Convert ones into twos" commentary for 1 run
 - ✅ **Fixed Target Score**: Super Over now uses fixed 20 runs target as per challenge requirements
 - ✅ **Realistic Unrealistic Outcomes**: Unrealistic combinations now result in realistic cricket outcomes (0 runs or 1 wicket)
 - ✅ **Voice Button Repositioning**: Moved voice toggle to Challenge #2 panel beside Clear button
