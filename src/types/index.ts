@@ -46,7 +46,7 @@ export type CommentaryType =
   | 'huge-hit'
   | 'just-over-fielder'
   | 'excellent-boundary-effort'
-  | 'convert-ones-twos'
+  | 'single-run'
   | 'massive-out-ground'
   | 'excellent-running'
   | 'dot-ball';

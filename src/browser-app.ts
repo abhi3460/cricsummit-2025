@@ -7,7 +7,21 @@ import { CricketApp } from './app/cricket-app';
 import { DependencyContainer } from './container/dependency-container';
 
 // Types for better type safety
-type ConsoleType = 'input' | 'output' | 'error' | 'commentary';
+type ConsoleType =
+  | 'input'
+  | 'output'
+  | 'error'
+  | 'commentary'
+  | 'header'
+  | 'ball-header'
+  | 'ball-detail'
+  | 'ball-outcome'
+  | 'result'
+  | 'error-warning'
+  | 'outcome-runs'
+  | 'outcome-wicket'
+  | 'outcome-dot'
+  | 'outcome-boundary';
 type ToastType = 'success' | 'error';
 
 interface VoiceSettings {
@@ -192,16 +206,15 @@ class CricketAppBrowser {
       }
 
       results.forEach(result => {
-        const isCommentary = result.includes('-') && challengeNumber === 2; // Only Challenge #2 should have voice commentary
-        this.addToConsole(
-          `console${challengeNumber}`,
-          result,
-          isCommentary ? 'commentary' : 'output'
-        );
-
-        if (isCommentary && this.voice.isEnabled) {
-          // Speak the full result including the runs
-          this.speakCommentary(result);
+        if (challengeNumber === 3) {
+          // Enhanced styling for Super Over (Challenge 3)
+          this.addSuperOverConsoleOutput(`console${challengeNumber}`, result);
+        } else if (challengeNumber === 2) {
+          // Enhanced styling for Challenge 2 (Commentary)
+          this.addChallenge2ConsoleOutput(`console${challengeNumber}`, result);
+        } else {
+          // Enhanced styling for Challenge 1 (Outcome Prediction)
+          this.addChallenge1ConsoleOutput(`console${challengeNumber}`, result);
         }
       });
     } catch (error) {
@@ -350,6 +363,164 @@ class CricketAppBrowser {
 
     consoleElement.appendChild(line);
     consoleElement.scrollTop = consoleElement.scrollHeight;
+  }
+
+  private addChallenge1ConsoleOutput(consoleId: string, output: string): void {
+    // Challenge 1: Enhanced outcome prediction formatting
+    const lines = output.split('\n');
+
+    lines.forEach(line => {
+      if (!line.trim()) {
+        return;
+      }
+
+      let consoleType: ConsoleType = 'output';
+      let formattedLine = line;
+
+      // Determine outcome type and format accordingly
+      if (line.includes('wicket')) {
+        consoleType = 'outcome-wicket';
+        formattedLine = `🚨 ${line.toUpperCase()}`;
+      } else if (line.includes('6 runs')) {
+        consoleType = 'outcome-boundary';
+        formattedLine = `🏏 SIX! ${line}`;
+      } else if (line.includes('4 runs')) {
+        consoleType = 'outcome-boundary';
+        formattedLine = `🎯 FOUR! ${line}`;
+      } else if (line.includes('runs')) {
+        consoleType = 'outcome-runs';
+        const runs = line.match(/\d+/)?.[0] || '';
+        formattedLine = `⚡ ${runs} RUN${runs !== '1' ? 'S' : ''} - ${line}`;
+      } else if (line.includes('0 runs') || line === '0 runs') {
+        consoleType = 'outcome-dot';
+        formattedLine = `⚫ DOT BALL - ${line}`;
+      }
+
+      this.addToConsole(consoleId, formattedLine, consoleType);
+    });
+  }
+
+  private addChallenge2ConsoleOutput(consoleId: string, output: string): void {
+    const lines = output.split('\n');
+
+    lines.forEach(line => {
+      if (!line.trim()) {
+        // Skip empty lines
+        return;
+      }
+
+      let consoleType: ConsoleType = 'output';
+
+      // Determine the type of line based on content patterns for Challenge 2
+      if (
+        line.includes('-') &&
+        (line.includes('runs') || line.includes('wicket'))
+      ) {
+        // Commentary lines with outcomes
+        consoleType = 'commentary';
+
+        // Enable voice commentary if available
+        if (this.voice.isEnabled) {
+          this.speakCommentary(line);
+        }
+      } else {
+        // Regular output lines
+        consoleType = 'output';
+      }
+
+      this.addToConsole(consoleId, line, consoleType);
+    });
+  }
+
+  private addSuperOverConsoleOutput(consoleId: string, output: string): void {
+    const lines = output.split('\n');
+
+    lines.forEach(line => {
+      if (!line.trim()) {
+        // Skip empty lines
+        return;
+      }
+
+      let consoleType: ConsoleType = 'output';
+
+      // Determine the type of line based on content patterns
+      if (line.includes('needs') && line.includes('runs to win')) {
+        consoleType = 'header';
+      } else if (line.includes('Ball-by-ball commentary:')) {
+        consoleType = 'header';
+      } else if (line.startsWith('Ball ') && line.includes('bowls a')) {
+        consoleType = 'ball-header';
+      } else if (
+        line.startsWith('  ') &&
+        line.includes('plays a') &&
+        line.includes('shot with')
+      ) {
+        consoleType = 'ball-detail';
+      } else if (line.startsWith('  ') && line.includes(' - ')) {
+        // Check if this is a run outcome and apply appropriate styling
+        const outcome = line.split(' - ')[1] || '';
+        if (outcome.includes('wicket')) {
+          consoleType = 'outcome-wicket';
+        } else if (outcome.includes('6 runs')) {
+          consoleType = 'outcome-boundary';
+        } else if (outcome.includes('4 runs')) {
+          consoleType = 'outcome-boundary';
+        } else if (outcome.includes('0 runs')) {
+          consoleType = 'outcome-dot';
+        } else if (outcome.includes('runs') || outcome.includes('run')) {
+          consoleType = 'outcome-runs';
+        } else {
+          consoleType = 'ball-outcome';
+        }
+      } else if (
+        line.includes('scored:') ||
+        line.includes('won by') ||
+        line.includes('lost by')
+      ) {
+        consoleType = 'result';
+      } else if (
+        line.includes('⚠️') ||
+        line.includes('Unrealistic Combinations')
+      ) {
+        consoleType = 'error-warning';
+      } else if (
+        line.includes('Note:') ||
+        line.includes('Bowling shots are random')
+      ) {
+        consoleType = 'error-warning';
+      }
+
+      // Add icons to Super Over outcomes without changing the original text
+      const enhancedLine = this.addIconsToSuperOverLine(line, consoleType);
+      this.addToConsole(consoleId, enhancedLine, consoleType);
+    });
+  }
+
+  private addIconsToSuperOverLine(
+    line: string,
+    consoleType: ConsoleType
+  ): string {
+    if (consoleType === 'outcome-wicket') {
+      return line.replace(/(\d+ wicket)/, '🚨 $1');
+    } else if (consoleType === 'outcome-boundary') {
+      if (line.includes('6 runs')) {
+        return line.replace(/(6 runs)/, '🏏 SIX!');
+      } else if (line.includes('4 runs')) {
+        return line.replace(/(4 runs)/, '🎯 FOUR!');
+      }
+    } else if (consoleType === 'outcome-runs') {
+      const runsMatch = line.match(/(\d+) runs?/);
+      if (runsMatch) {
+        const runs = runsMatch[1];
+        return line.replace(
+          /(\d+ runs?)/,
+          `⚡ ${runs} RUN${runs !== '1' ? 'S' : ''}`
+        );
+      }
+    } else if (consoleType === 'outcome-dot') {
+      return line.replace(/(0 runs)/, '⚫ DOT BALL');
+    }
+    return line;
   }
 
   private clearConsole(consoleId: string): void {

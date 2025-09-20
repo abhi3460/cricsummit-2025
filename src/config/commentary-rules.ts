@@ -24,8 +24,8 @@ const COMMENTARY_RULES: CommentaryRule[] = [
   },
   {
     outcome: '1 run',
-    commentaryType: 'convert-ones-twos',
-    text: 'Convert ones into twos.',
+    commentaryType: 'single-run',
+    text: 'Quick single taken.',
   },
   {
     outcome: '2 runs',
