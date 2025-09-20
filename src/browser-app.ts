@@ -192,9 +192,7 @@ class CricketAppBrowser {
       }
 
       results.forEach(result => {
-        const isCommentary =
-          result.includes('-') &&
-          (challengeNumber === 2 || challengeNumber === 3);
+        const isCommentary = result.includes('-') && challengeNumber === 2; // Only Challenge #2 should have voice commentary
         this.addToConsole(
           `console${challengeNumber}`,
           result,
